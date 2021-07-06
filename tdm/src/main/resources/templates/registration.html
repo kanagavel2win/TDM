@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="loading" lang="en"
+	data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="ICC">
+<title>Lions Club - Registration</title>
+<link rel="apple-touch-icon"
+	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
+<link rel="shortcut icon" type="image/x-icon"
+	th:href="@{/app-assets/images/ico/favicon.ico}">
+<link
+	href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700"
+	rel="stylesheet">
+
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/vendors.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/extensions/toastr.css}">
+
+<!-- END: Vendor CSS-->
+
+<!-- BEGIN: Theme CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap-extended.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/colors.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/components.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/dark-layout.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/semi-dark-layout.css}">
+<!-- END: Theme CSS-->
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/core/menu/menu-types/vertical-menu.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/forms/wizard.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/extensions/toastr.css}">
+<!-- END: Page CSS-->
+
+<!-- BEGIN: Custom CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/style.css}">
+<!-- END: Custom CSS-->
+
+<style type="text/css">
+.radiobtn {
+	margin-left: 5%;
+}
+
+.txtbox {
+	min-width: 200px;
+	border: 1px solid #D1D1D1;
+	background: #004b93;
+	color: #D1D1D1;
+}
+
+::placeholder {
+	color: #D1D1D1;
+	opacity: 1;
+	text-align: center;
+}
+
+.btn_login {
+	background: #FFD700;
+	color: #000;
+	border: none;
+	width: 100px;
+}
+
+.logout {
+	color: #fff;
+	background: red;
+	height: 30px;
+	text-align: center; font-size : 20px;
+	width: 300px;
+	font-size: 20px;
+}
+
+.weserve {
+	color: #fff;
+	font-family: calibri;
+	font-size:50px;
+	margin-top:100%;
+	overflow:visible;
+width:100%;
+	transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.error-message
+{
+ background: white;
+ color: red;
+  
+}
+
+.success1
+{
+ background: #fff;
+ width: 50%;
+ padding: 10px;
+ color: #006400;
+}
+</style>
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body
+	class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 1-columns  navbar-sticky footer-static  "
+	data-open="click" data-menu="vertical-menu-modern" data-col="1-columns">
+
+	<!-- BEGIN: Main Menu-->
+	<div th:insert="menulogin"></div>
+	<!-- END: Main Menu-->
+
+
+	<!-- BEGIN: Content-->
+	<div class="app-content content"
+		style="background: #004b93; font-family: calibri" align="center">
+		<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
+			height="200" width="200">
+		<!-- <p style="color: #fff; font-size: 30px;">
+			<b>Welcome to your Lions Account</b>
+		</p> -->
+		
+<div th:if="${param.success}">
+					<div class="success1">You've successfully registered<br/>
+					<a href="/" th:href="@{/login}">Login
+								here</a>
+						</div>
+				</div>
+
+				<h4 style="color: #fff;">Create your Lion Account</h4>
+				<p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Your Lion Account gives you access to all your favorite Lions MyClubs Applications.</p>
+				<form th:action="@{/registration}" th:object="${user}" method="post">
+
+					<p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+						th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+						error</p>
+					
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('clubID')}? 'has-error':''">
+						<input
+							id="memberID" class="txtbox" th:field="*{clubID}" placeholder="Club ID : 123456"  required="required"/>
+						<p class="error-message"
+							th:each="error: ${#fields.errors('clubID')}"
+							th:text="${error}">Validation error</p>
+					</div>
+					
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('memberID')}? 'has-error':''">
+						<input
+							id="memberID" class="txtbox" th:field="*{memberID}" placeholder="Member ID : 123456"  required="required"/>
+						<p class="error-message"
+							th:each="error: ${#fields.errors('memberID')}"
+							th:text="${error}">Validation error</p>
+					</div>
+				
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+						 <input
+							id="email" class="txtbox" th:field="*{email}"  placeholder="Email ID : mail@lionmmd.in"   required="required"/>
+						<p class="error-message"
+							th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
+							error</p>
+					</div>
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
+						<input id="confirmEmail" class="txtbox"
+							th:field="*{confirmEmail}"   placeholder="Re-Enter Email ID "  required="required" />
+						<p class="error-message"
+							th:each="error : ${#fields.errors('confirmEmail')}"
+							th:text="${error}">Validation error</p>
+					</div>
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
+						 <input
+							id="password" class="txtbox" type="password"
+							th:field="*{password}"   placeholder="Create your password : *****"  required="required"/>
+						<p class="error-message"
+							th:each="error : ${#fields.errors('password')}"
+							th:text="${error}">Validation error</p>
+					</div>
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
+						<input id="confirmPassword" class="txtbox"
+							type="password" th:field="*{confirmPassword}"  placeholder="Re-enter Password"   required="required"/>
+						<p class="error-message"
+							th:each="error : ${#fields.errors('confirmPassword')}"
+							th:text="${error}">Validation error</p>
+					</div>
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('terms')}? 'has-error':''">
+						<input id="terms" type="checkbox" th:field="*{terms}" required="required" />   <label
+							class="control-label" for="terms" style="color:#fff;"> I have read and i agree to the Lions Clubs International <a
+							href="#">terms and conditions</a>.
+						</label>
+						<p class="error-message"
+							th:each="error : ${#fields.errors('terms')}" th:text="${error}">Validation
+							error</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn_login">Register</button><br/>
+						<span style="color: #fff;">Already registered? <a href="/" th:href="@{/login}">Login
+								here</a></span>
+					</div>
+
+				</form>
+				
+				
+		<span class="float-left d-inline-block"></span><span
+				class="float-center d-sm-inline-block d-none" style="color: #fff">Powered by Lion - District 342 B1 @
+				2020 Lions District 324 B1 <br/>Privacy Policy | Terms of Use</span>
+				<br/><br/>
+	</div>
+	<!-- END: Content-->
+
+
+	<div class="sidenav-overlay"></div>
+	<div class="drag-target"></div>
+
+	<!-- BEGIN: Footer-->
+	<footer class="footer footer-static footer-light" style="background: #f9c910;">
+		
+	</footer>
+	<!-- END: Footer-->
+
+
+	<!-- BEGIN: Vendor JS-->
+	<script th:src="@{/app-assets/vendors/js/vendors.min.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js}"></script>
+	<script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js}"></script>
+	<!-- BEGIN Vendor JS-->
+
+	<!-- BEGIN: Page Vendor JS-->
+	<script
+		th:src="@{/app-assets/vendors/js/extensions/jquery.steps.min.js}"></script>
+	<script
+		th:src="@{/app-assets/vendors/js/forms/validation/jquery.validate.min.js}"></script>
+
+	<script th:src="@{/app-assets/vendors/js/extensions/toastr.min.js}"></script>
+	<!-- END: Page Vendor JS-->
+
+	<!-- BEGIN: Theme JS-->
+	<script th:src="@{/app-assets/js/core/app-menu.js}"></script>
+	<script th:src="@{/app-assets/js/core/app.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/components.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/footer.js}"></script>
+	<!-- END: Theme JS-->
+
+	<!-- BEGIN: Page JS-->
+	<script th:src="@{/app-assets/js/scripts/forms/wizard-steps.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/extensions/toastr.js}"></script>
+	<!-- END: Page JS-->
+
+
+</body>
+<!-- END: Body-->
+
+</html>

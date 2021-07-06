@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="loading" lang="en"
+	data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="ICC">
+<title>Lions Club - Login</title>
+<link rel="apple-touch-icon"
+	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
+<link rel="shortcut icon" type="image/x-icon"
+	th:href="@{/app-assets/images/ico/favicon.ico}">
+<link
+	href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700"
+	rel="stylesheet">
+
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/vendors.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/extensions/toastr.css}">
+
+<!-- END: Vendor CSS-->
+
+<!-- BEGIN: Theme CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap-extended.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/colors.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/components.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/dark-layout.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/semi-dark-layout.css}">
+<!-- END: Theme CSS-->
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/core/menu/menu-types/vertical-menu.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/forms/wizard.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/extensions/toastr.css}">
+<!-- END: Page CSS-->
+
+<!-- BEGIN: Custom CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/style.css}">
+<!-- END: Custom CSS-->
+
+<style type="text/css">
+.radiobtn {
+	margin-left: 5%;
+}
+
+.txtbox {
+	min-width: 200px;
+	border: 1px solid #D1D1D1;
+	background: #004b93;
+	color: #D1D1D1;
+}
+
+::placeholder {
+	color: #D1D1D1;
+	opacity: 1;
+	text-align: center;
+}
+
+.btn_login {
+	background: #FFD700;
+	color: #000;
+	border: none;
+	width: 100px;
+}
+
+.logout {
+	color: #fff;
+	background: red;
+	height: 30px;
+	text-align: center; font-size : 20px;
+	width: 300px;
+	font-size: 20px;
+}
+
+.weserve {
+	color: #fff;
+	font-family: calibri;
+	font-size:50px;
+	margin-top:100%;
+	overflow:visible;
+width:100%;
+	transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+</style>
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body
+	class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 1-columns  navbar-sticky footer-static  "
+	data-open="click" data-menu="vertical-menu-modern" data-col="1-columns">
+
+	<!-- BEGIN: Main Menu-->
+	<div th:insert="menulogin"></div>
+	<!-- END: Main Menu-->
+
+
+	<!-- BEGIN: Content-->
+	<div class="app-content content"
+		style="background: #004b93; font-family: calibri" align="center">
+		<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
+			height="200" width="200">
+		<p style="color: #fff; font-size: 30px;">
+			<b>Welcome to your Lions Account</b>
+		</p>
+		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
+			We have a new <span style="color: #FFD700;"> Member, MyClub,
+				District</span> Login System.
+		</p>
+		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">Your
+			MyClub Account UserName and Password allows you to access </p>
+		<p style="color: #D1D1D1; font-size: 17px; line-height: 15px;">
+			all the Lions information and service insights.</p>
+		<p style="color: #D1D1D1; font-size: 14px; line-height: 15px;">(Lions
+			Club users who do not have a MyClub UserName and Password - Register
+			for Your Account Today.)</p>
+
+
+		<hr style="border-style: dashed; width: 80%;" />
+		<p style="color: #FFD700;">
+			<input type="radio" class="radio radio-glow" name="radioGlow"
+				checked="" value="MEMBER"> &nbsp;&nbsp;MEMBER <input
+				type="radio" class="radiobtn" name="radioGlow" value="CLUB">&nbsp;&nbsp;
+			CLUB <input type="radio" class="radiobtn" name="radioGlow"
+				value="DISTRICT"> &nbsp;&nbsp;DISTRICT
+		</p>
+		<hr style="border-style: dashed; width: 80%;" />
+		<p style="color: #fff;">SIGN IN</p>
+		<form th:action="@{/login}" method="post">
+			<div th:if="${param.error}">
+				<div class="alert alert-danger">Invalid UserName or Password.</div>
+			</div>
+			<div th:if="${param.logout}">
+				<div class="alert alert-danger">You have been logged out.</div>
+
+			</div>
+			<input type="text" class="txtbox" name="username"
+				placeholder="Username : Ln_123456" /><br />
+			<br /> <input type="password" class="txtbox" name="password"
+				placeholder="Passsword : 123456" /><br />
+			<br /> <input type="submit" value="SIGN IN" class="btn_login" />
+		</form>
+		<br/>
+		<a href="#" class="forgotpassword"><p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot your Account UserName?or</p>
+		<p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot your password</p>
+		</a>
+		<hr style="border-style: dashed; width: 80%;" />
+		<br />
+		
+		<p style="color: #fff; font-size: 20px;">
+			<b>REGISTER YOUR MEMBER / MYCLUB</b>
+		</p>
+		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
+			Don't have a Account?		</p>
+		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
+			Create an account today to access all our Information and Services...</p>
+		<p><a href="registration"><input type="button" value="REGISTER" class="btn_login" /></a></p>
+		<br/><br/><br/>
+		
+		<span class="float-left d-inline-block"></span><span
+				class="float-center d-sm-inline-block d-none" style="color: #fff">Powered by Lion - District 342 B1 @
+				2020 Lions District 324 B1 <br/>Privacy Policy | Terms of Use</span>
+				<br/><br/>
+			<button class="btn btn-primary btn-icon scroll-top" type="button">
+				<i class="bx bx-up-arrow-alt"></i>
+			</button>
+	</div>
+	<!-- END: Content-->
+
+
+	<div class="sidenav-overlay"></div>
+	<div class="drag-target"></div>
+
+	<!-- BEGIN: Footer-->
+	<footer class="footer footer-static footer-light" style="background: #f9c910;">
+		
+	</footer>
+	<!-- END: Footer-->
+
+
+	<!-- BEGIN: Vendor JS-->
+	<script th:src="@{/app-assets/vendors/js/vendors.min.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js}"></script>
+	<script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js}"></script>
+	<!-- BEGIN Vendor JS-->
+
+	<!-- BEGIN: Page Vendor JS-->
+	<script
+		th:src="@{/app-assets/vendors/js/extensions/jquery.steps.min.js}"></script>
+	<script
+		th:src="@{/app-assets/vendors/js/forms/validation/jquery.validate.min.js}"></script>
+
+	<script th:src="@{/app-assets/vendors/js/extensions/toastr.min.js}"></script>
+	<!-- END: Page Vendor JS-->
+
+	<!-- BEGIN: Theme JS-->
+	<script th:src="@{/app-assets/js/core/app-menu.js}"></script>
+	<script th:src="@{/app-assets/js/core/app.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/components.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/footer.js}"></script>
+	<!-- END: Theme JS-->
+
+	<!-- BEGIN: Page JS-->
+	<script th:src="@{/app-assets/js/scripts/forms/wizard-steps.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/extensions/toastr.js}"></script>
+	<!-- END: Page JS-->
+
+<script type="text/javascript">
+	
+$(document)
+.ready(
+		function() {
+			
+			$(".forgotpassword").click(function() 
+			{
+				alert("Contact your club admin. They will help you..!");
+			});
+		});
+		
+
+</script>
+
+</body>
+<!-- END: Body-->
+
+</html>
