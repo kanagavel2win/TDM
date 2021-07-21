@@ -13,46 +13,52 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tdm.tdm.dao.UserRepository;
+import com.tdm.tdm.entity.ProfileMaster;
 import com.tdm.tdm.entity.User;
+import com.tdm.tdm.service.ProfileMasterService;
 
 @Controller
-
 public class HomeController {
 
+	
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private ProfileMasterService profileMasterService;	
+	
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
 
 		String dataLoginEmailID = "";
-		String dataLoginClubID = "";
+		String dataLoginUserName = "";
 		try {
 
 			try {
 				if (request.getSession().getAttribute("dataLoginEmailID").toString().equals(null)) {
-					dataLoginClubID = getLoginClubID();
-					request.getSession().setAttribute("dataLoginClubID", dataLoginClubID);
+					dataLoginUserName = getLoginuserName();
+					request.getSession().setAttribute("dataLoginUserName", dataLoginUserName);
 					dataLoginEmailID = getLoginemailID();
 					request.getSession().setAttribute("dataLoginEmailID", dataLoginEmailID);
 				}
 			} catch (NullPointerException e) {
-				dataLoginClubID = getLoginClubID();
-				request.getSession().setAttribute("dataLoginClubID", dataLoginClubID);
+				dataLoginUserName = getLoginuserName();
+				request.getSession().setAttribute("dataLoginUserName", dataLoginUserName);
 				dataLoginEmailID = getLoginemailID();
 				request.getSession().setAttribute("dataLoginEmailID", dataLoginEmailID);
 			}
 
 			dataLoginEmailID = request.getSession().getAttribute("dataLoginEmailID").toString();
-			dataLoginClubID = request.getSession().getAttribute("dataLoginClubID").toString();
+			dataLoginUserName = request.getSession().getAttribute("dataLoginUserName").toString();
 
 		} catch (Exception e) {
 
 		} finally {
 			themodel.addAttribute("dataLoginEmailID", dataLoginEmailID);
-			themodel.addAttribute("dataLoginClubID", dataLoginClubID);
+			themodel.addAttribute("dataLoginUserName", dataLoginUserName);
 		}
 
 	}
@@ -96,21 +102,21 @@ public class HomeController {
 
 	}
 
-	public String getLoginMemberID() {
+	public String getLoginuserName() {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User user2 = userRepository.findByEmail(currentPrincipalName);
-		return user2.getmemberID();
+		return user2.getuserName(); 
 
 	}
 
-	public String getLoginClubID() {
+	public String getLoginaccountName() {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User user2 = userRepository.findByEmail(currentPrincipalName);
-		return user2.getClubID();
+		return user2.getaccountName();
 
 	}
 
@@ -131,5 +137,36 @@ public class HomeController {
 		return "login";
 	}
 
+	@GetMapping("/newprofile")
+	public String profileMasterAdd(Model model) {
+		
+		ProfileMaster obj=new ProfileMaster();
+		/*obj.setProfileName("IFSI");
+		obj.setDescription("Claims");*/
+		model.addAttribute("ProfileMaster", obj);
+		return "profileMasterAdd";
+	}
 	
+	@PostMapping("saveprofile")
+	public String saveprofile(HttpServletRequest request, @ModelAttribute("ProfileMaster") ProfileMaster profile, Model model)
+	{
+		profileMasterService.save(profile);
+		model.addAttribute("ProfileMaster", new ProfileMaster());
+		model.addAttribute("savestatus","Saved");
+		return "profileMasterAdd";
+	}
+	
+	@GetMapping("list")
+	public String profileListView(Model model) {
+		List<ProfileMaster> list= profileMasterService.findAll();
+		
+		model.addAttribute("profileList",list);		
+		return "profileList";
+	}
+	
+	@GetMapping("profileLayout")
+	public String profileStructureEdit(Model model)
+	{	
+		return "profilestructure";
+	}
 }

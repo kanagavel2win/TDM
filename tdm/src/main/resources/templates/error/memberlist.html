@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="loading" lang="en" data-textdirection="ltr">
+
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="ICC">
+    <title>Member List </title>
+    <link rel="apple-touch-icon" th:href="@{/app-assets/images/ico/apple-icon-120.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/app-assets/images/ico/favicon.ico}">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/vendors/css/vendors.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/vendors/css/tables/datatable/datatables.min.css}">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/bootstrap-extended.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/colors.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/themes/dark-layout.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/themes/semi-dark-layout.css}">
+    <!-- END: Theme CSS-->
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/app-assets/css/core/menu/menu-types/vertical-menu.css}">
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}">
+    <!-- END: Custom CSS-->
+    
+    <style type="text/css">
+    
+    .table
+    {
+    	font-family: calibri;
+    	font-size: 13px;
+    }
+    .table td
+    {
+    	padding: 5px;
+    	text-align: left;
+    	color: #104E8B;    	
+    }
+    .table thead th {
+    
+    background: #E0E0E0;
+    font-weight: normal;
+    color: #8B7E66;
+    text-align: left;	
+    }
+    
+    </style>
+
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->  <!-- BEGIN: Header-->
+    <div th:insert="header">  </div>
+    <!-- END: Header-->
+
+
+    <!-- BEGIN: Main Menu-->
+	<div th:insert="menu">  </div>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-12 mb-2 mt-1">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h5 class="content-header-title float-left pr-1 mb-0">Member Master List</h5>
+                            <div class="breadcrumb-wrapper col-12">
+                                <ol class="breadcrumb p-0 mb-0">
+                                    <li class="breadcrumb-item"><a href="index"><i class="bx bx-home-alt"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Member List
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+               
+                <!-- Zero configuration table -->
+                <section id="basic-datatable">
+                    <div class="row">
+                        <div class="col-12">
+                        	<h5  th:text="${clubName}" style="background:#ccc;"></h5>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                    <span><a href="memberupload"> <i class="bx bx-upload"></i> &nbsp;&nbsp; Upload Latest Member Data</a></span>
+                                    </h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body card-dashboard">
+                                        <p class="card-text"></p>
+                                        <div class="table-responsive">
+                                            <table class="table zero-configuration">
+                                                <thead>
+                                                    <tr>
+                                                        <th>OrderID</th>
+                                                        <th>Name</th>
+                                                        <th>Designation</th>
+                                                        <th>Occupation</th>
+                                                        <th>Mobile No</th>
+                                                        <th>View</th>                                                                                                             
+                                                        
+                                                        
+	
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                	<tr th:each="member : ${members}">
+													    <td th:text="${member['ReportPriorityOrder']}"></td>
+													    <td><span th:text="${member['First_Name']} +' '+ ${member['Last_Name']} + '(' + ${member['MemberID']} +')'"></span></td>
+                                                        <td th:text="${member['Title']}"></td>
+                                                        <td th:text="${member['Occupation']}"></td>
+                                                        <td th:text="${member['Cell_Phone']}"></td>
+                                                        
+                                                        <td style="text-align: center"><a th:href="'memberedit?id=' + @{{id} (id=${member['id']})}" target="blank"><i class="bx bx-search" style="font-size:26px"></i></a></td>
+                                                        	
+													</tr>
+                                                    
+                                                   
+                                                   
+                                                </tbody>
+                                                <tfoot>
+                                                     <tr>
+                                                        <th>S.No</th>
+                                                        <th>Name</th>
+                                                        <th>Designation</th>
+                                                        <th>Occupation</th>
+                                                        <th>Mobile No</th>   
+                                                        <th>View</th>                                                     
+                                                        
+                                                        
+	
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--/ Zero configuration table -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    
+
+    
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0"><span class="float-left d-inline-block"></span><span class="float-right d-sm-inline-block d-none">Copy Right @ Lions Clubs - District 324 B1   | PRIVACY POLICY</span>
+          <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="bx bx-up-arrow-alt"></i></button>
+        </p>
+    </footer>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script th:src="@{/app-assets/vendors/js/vendors.min.js}"></script>
+    <script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.js}"></script>
+    <script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js}"></script>
+    <script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js}"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/datatables.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/buttons.html5.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/buttons.print.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/buttons.bootstrap.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/pdfmake.min.js}"></script>
+    <script th:src="@{/app-assets/vendors/js/tables/datatable/vfs_fonts.js}"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script th:src="@{/app-assets/js/core/app-menu.js}"></script>
+    <script th:src="@{/app-assets/js/core/app.js}"></script>
+    <script th:src="@{/app-assets/js/scripts/components.js}"></script>
+    <script th:src="@{/app-assets/js/scripts/footer.js}"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script th:src="@{/app-assets/js/scripts/datatables/datatable.js}"></script>
+    <!-- END: Page JS-->
+
+</body>
+<!-- END: Body-->
+
+</html>

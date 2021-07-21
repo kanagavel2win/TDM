@@ -13,10 +13,10 @@ import com.tdm.tdm.constraint.FieldMatch;
 public class UserRegistrationDto {
 
 	@NotEmpty
-	private String clubID;
+	private String userName;
 	
 	@NotEmpty
-    private String memberID;
+    private String accountName;
 
 
     @NotEmpty
@@ -36,12 +36,12 @@ public class UserRegistrationDto {
     @AssertTrue
     private Boolean terms;
 
-    public String getMemberID() {
-        return memberID;
+    public String getaccountName() {
+        return accountName;
     }
 
-    public void setMemberID(String memberID) {
-        this.memberID = memberID;
+    public void setaccountName(String accountName) {
+        this.accountName = accountName;
     }
 
 
@@ -85,12 +85,12 @@ public class UserRegistrationDto {
         this.terms = terms;
     }
 
-	public String getClubID() {
-		return clubID;
+	public String getuserName() {
+		return userName;
 	}
 
-	public void setClubID(String clubID) {
-		this.clubID = clubID;
+	public void setuserName(String userName) {
+		this.userName = userName;
 	}
 
     

@@ -11,10 +11,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String memberID;
+    private String userName;
     private String email;
     private String password;
-    private String clubID;
+    private String accountName;
     
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -28,29 +28,29 @@ public class User {
     public User() {
     }
 
-    public User(String memberID,  String email, String password,String clubID) {
-        this.memberID = memberID;
+    public User(String userName,  String email, String password,String accountName) {
+        this.userName = userName;
         
         this.email = email;
         this.password = password;
-        this.clubID =clubID;
+        this.accountName =accountName;
     }
 
-    public User(String memberID,  String email, String password, String clubID,Collection<UserRole> roles) {
-        this.memberID = memberID;
-        this.clubID =clubID;
+    public User(String userName,  String email, String password, String accountName,Collection<UserRole> roles) {
+        this.userName = userName;
+        this.accountName =accountName;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
         
-	public String getClubID() {
-		return clubID;
+	public String getaccountName() {
+		return accountName;
 	}
 
-	public void setClubID(String clubID) {
-		this.clubID = clubID;
+	public void setaccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	public Long getId() {
@@ -61,12 +61,12 @@ public class User {
         this.id = id;
     }
 
-    public String getmemberID() {
-        return memberID;
+    public String getuserName() {
+        return userName;
     }
 
-    public void setmemberID(String memberID) {
-        this.memberID = memberID;
+    public void setuserName(String userName) {
+        this.userName = userName;
     }
 
   
@@ -96,8 +96,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", memberID=" + memberID + ", email=" + email + ", password=" + password + ", clubID="
-				+ clubID + ", roles=" + roles + "]";
+		return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", password=" + password + ", accountName="
+				+ accountName + ", roles=" + roles + "]";
 	}
 
    

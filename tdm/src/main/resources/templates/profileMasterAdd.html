@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="loading" lang="en"
+	data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="ICC">
+<title>New Profile</title>
+<link rel="apple-touch-icon"
+	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
+<link rel="shortcut icon" type="image/x-icon"
+	th:href="@{/app-assets/images/ico/favicon.ico}">
+<link
+	href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700"
+	rel="stylesheet">
+
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/vendors.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/vendors/css/extensions/toastr.css}">
+
+<!-- END: Vendor CSS-->
+
+<!-- BEGIN: Theme CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/bootstrap-extended.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/colors.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/components.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/dark-layout.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/themes/semi-dark-layout.css}">
+<!-- END: Theme CSS-->
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/core/menu/menu-types/vertical-menu.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/forms/wizard.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/app-assets/css/plugins/extensions/toastr.css}">
+<!-- END: Page CSS-->
+
+<!-- BEGIN: Custom CSS-->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/style.css}">
+<!-- END: Custom CSS-->
+
+<style type="text/css">
+.interDifferspan {
+	color: #fff;
+	background-color: green;
+	padding: 1px 10px;
+	width: 100%;
+}
+</style>
+<style type="text/css">
+table {
+	font-family: calibri;
+	border-color: #004b93;
+}
+
+table td {
+	font-family: calibri;
+	padding: 5px;
+	color: #104E8B;
+	border-color: #004b93;
+}
+
+table thead th {
+	background: #E0E0E0;
+	font-weight: normal;
+	color: #8B7E66;
+}
+
+.memberstyle {
+	color: #CD2626;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.memberstyle1 {
+	color: #CD2626;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.regulermemberNameColor {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.topmembertabletd {
+	border-bottom-color: #fff;
+}
+
+.membertitle {
+	font-family: calibri;
+	font-weight: bold;
+}
+
+.fnameTable {
+	width: 400px;
+	min-width: 400px;
+}
+
+.fmemberno {
+	
+}
+
+.fmembername {
+	color: #CD2626;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.fmembersname {
+	color: #000000;
+	font-size: 17px;
+}
+
+.personalInfo td {
+	font-family: calibri;
+	padding: 5px;
+	color: #104E8B;
+	border-color: #DCDCDC;
+}
+
+.profile-fill {
+	display: none;
+}
+
+.messages-fill {
+	display: none;
+}
+
+.settings-fill {
+	display: none;
+}
+</style>
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body
+	class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  "
+	data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+	<!-- BEGIN: Header-->
+	<div th:insert="header"></div>
+	<!-- END: Header-->
+
+
+	<!-- BEGIN: Main Menu-->
+	<div th:insert="menu"></div>
+	<!-- END: Main Menu-->
+
+	<!-- BEGIN: Content-->
+	<div class="app-content content">
+		<div class="content-overlay"></div>
+		<div class="content-wrapper">
+			<div class="content-header row">
+				<div class="content-header-left col-12 mb-2 mt-1">
+					<div class="row breadcrumbs-top">
+						<div class="col-12"></div>
+					</div>
+				</div>
+
+				<div th:if="${savestatus}" class="form-group col-12">
+					<button type="button" class="btn mb-1 btn-success btn-lg btn-block">Profile
+						Added Successfully</button>
+				</div>
+
+			</div>
+
+			<br />
+			<div class="content-body" style="border: solid #EBEBEB 2px;">
+
+				<!-- Form wizard with icon tabs section start -->
+				<section id="icon-tabs">
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">New Profile</h4>
+
+								</div>
+								<div class="card-content mt-2">
+									<div class="card-body">
+										<form th:action="@{/saveprofile}" th:object="${ProfileMaster}"
+											method="POST" class="wizard-horizontal"
+											enctype="multipart/form-data">
+
+											<div class="tab-content pt-1">
+												<!-- body content step 1 -->
+												<fieldset>
+													<div class="row">
+														<div class="col-sm-6 home-fill">
+															<div class="form-group">
+																<label>Profile Name</label> <input type="text"
+																	class="form-control"
+																	th:value="${ProfileMaster.profileName}"
+																	th:field="*{profileName}"
+																	/>
+															</div>
+														</div>
+													</div>
+												</fieldset>
+												<fieldset>
+													<div class="row">
+														<div class="col-sm-6 home-fill">
+															<div class="form-group">
+																<label>Description</label> 
+																<input type="text"
+																	class="form-control"
+																	th:value="${ProfileMaster.description}"
+																	th:field="*{description}"
+																	/>
+																
+															</div>
+														</div>
+
+													</div>
+												</fieldset>
+												<!-- body content of step 2 end-->
+											</div>
+
+
+											<input type="submit" class="btn btn-primary mr-1 mb-1"
+												value="Update" /> <a href="index"
+												class="btn btn-primary" style="margin-top: -15px">Back</a>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- Form wizard with number tabs section end -->
+
+			</div>
+		</div>
+	</div>
+	<!-- END: Content-->
+
+
+
+
+	<div class="sidenav-overlay"></div>
+	<div class="drag-target"></div>
+
+	<!-- BEGIN: Footer-->
+	<footer class="footer footer-static footer-light">
+		<p class="clearfix mb-0">
+			<span class="float-left d-inline-block"></span><span
+				class="float-right d-sm-inline-block d-none">Copy Right @
+				Lions Clubs - District 324 B1 | PRIVACY POLICY</span>
+			<button class="btn btn-primary btn-icon scroll-top" type="button">
+				<i class="bx bx-up-arrow-alt"></i>
+			</button>
+		</p>
+	</footer>
+	<!-- END: Footer-->
+
+
+	<!-- BEGIN: Vendor JS-->
+	<script th:src="@{/app-assets/vendors/js/vendors.min.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.js}"></script>
+	<script
+		th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js}"></script>
+	<script th:src="@{/app-assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js}"></script>
+	<!-- BEGIN Vendor JS-->
+
+	<!-- BEGIN: Page Vendor JS-->
+	<script
+		th:src="@{/app-assets/vendors/js/extensions/jquery.steps.min.js}"></script>
+	<script
+		th:src="@{/app-assets/vendors/js/forms/validation/jquery.validate.min.js}"></script>
+
+	<script th:src="@{/app-assets/vendors/js/extensions/toastr.min.js}"></script>
+	<!-- END: Page Vendor JS-->
+
+	<!-- BEGIN: Theme JS-->
+	<script th:src="@{/app-assets/js/core/app-menu.js}"></script>
+	<script th:src="@{/app-assets/js/core/app.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/components.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/footer.js}"></script>
+	<!-- END: Theme JS-->
+
+	<!-- BEGIN: Page JS-->
+	<script th:src="@{/app-assets/js/scripts/forms/wizard-steps.js}"></script>
+	<script th:src="@{/app-assets/js/scripts/extensions/toastr.js}"></script>
+	<!-- END: Page JS-->
+	<!-- BEGIN: Page JS-->
+	<script th:src="@{/app-assets/js/scripts/navs/navs.js}"></script>
+	<!-- END: Page JS-->
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+
+							var i = 1;
+							$('#table_row_count').val(i);
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+							$('#addrows')
+									.click(
+											function() {
+												i++;
+												$('#add_fields')
+														.append(
+																'<tr id="row'+i+'"><td><input class="form-check" type="checkbox"/></td><td><div class="form" style="height:45px;"><input type="text" list="familydetails" autocomplete="off"  name="fa_member_id" class="form-control" style="height:45px;" required /></div></td><td><select class="form-control" id="basicSelect" name="fa_member_relation"><option value="Child">Child</option>					<option value="Spouse">Spouse</option>					<option value="In-law">In-law</option>					<option value="Sibling">Sibling</option>					<option value="Parent">Parent</option>					<option value="Others">Others</option>			</select></td>						<td>				<select class="form-control" id="basicSelect" name="fa_member_orderid">					<option value="1">1</option>					<option value="2">2</option>					<option value="3">3</option>					<option value="4">4</option>					<option value="5">5</option>					<option value="6">6</option>/					<option value="7">7</option>					<option value="8">8</option>					<option value="9">9</option>					<option value="10"10></option>									</select>			</td></tr>');
+												$('#table_row_count').val(i);
+											});
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+							$("#removerows").on(
+									'click',
+									function() {
+										$('.form-check:checkbox:checked')
+												.parents("tr").remove();
+										$('#check_all').prop("checked", false);
+
+									});
+
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+
+							$(".removeFmember").click(function() {
+								var deleteId = $(this).attr('id');
+
+								var formData = {
+									deleteId : $(this).attr('id')
+
+								}
+
+								// DO POST
+								$.ajax({
+									type : "POST",
+									url : "memberFamilyDelete",
+									data : formData,
+									success : function(result) {
+										console.log(result);
+									},
+									error : function(e) {
+										console.log("ERROR: ", e);
+									}
+								});
+
+								var tr = $(this).closest('tr');
+								tr.remove();
+
+								$('#slide-toast').click();
+
+							});
+
+							$('#sameasHomeaddress')
+									.click(
+											function() {
+												if ($("input[type=checkbox]")
+														.is(":checked")) {
+
+													$("#Off_Address_Line_1")
+															.val(
+																	$(
+																			"#Member_Address_Line_1")
+																			.val());
+													$("#Off_Address_Line_2")
+															.val(
+																	$(
+																			"#Member_Address_Line_2")
+																			.val());
+													$("#Off_Address_Line_3")
+															.val(
+																	$(
+																			"#Member_Address_Line_3")
+																			.val());
+													$("#Off_Address_Line_4")
+															.val(
+																	$(
+																			"#Member_Address_Line_4")
+																			.val());
+													$("#Off_Address_Line_City")
+															.val(
+																	$(
+																			"#Member_Address_Line_City")
+																			.val());
+													$("#Off_Address_Line_State")
+															.val(
+																	$(
+																			"#Member_Address_Line_State")
+																			.val());
+													$(
+															"#Off_Address_Line_PostalCode")
+															.val(
+																	$(
+																			"#Member_Address_Line_PostalCode")
+																			.val());
+													$(
+															"#Off_Address_Line_Country")
+															.val(
+																	$(
+																			"#Member_Address_Line_Country")
+																			.val());
+
+												} else {
+
+												}
+											});
+
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+
+							$(function() {
+								var token = $("input[name='_csrf']").val();
+								var header = 'X-CSRF-TOKEN';//$("meta[name='_csrf_header']").attr("content");
+								$(document).ajaxSend(function(e, xhr, options) {
+									xhr.setRequestHeader(header, token);
+								});
+							});
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+
+						$(".nav-link").click(function(){
+							var activetab= $(this).attr("href");
+							$(".profile-fill").css("display","none");
+							$(".messages-fill").css("display","none");
+							$(".settings-fill").css("display","none");
+							$(".home-fill").css("display","none");
+							
+							$("."+activetab).css("display","block");
+						});
+						
+						});
+	</script>
+
+</body>
+<!-- END: Body-->
+
+</html>

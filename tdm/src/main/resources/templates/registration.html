@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="ICC">
-<title>Lions Club - Registration</title>
+<title>TDM - Registration</title>
 <link rel="apple-touch-icon"
 	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
 <link rel="shortcut icon" type="image/x-icon"
@@ -150,8 +150,8 @@ width:100%;
 						</div>
 				</div>
 
-				<h4 style="color: #fff;">Create your Lion Account</h4>
-				<p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Your Lion Account gives you access to all your favorite Lions MyClubs Applications.</p>
+				<h4 style="color: #fff;">Create your TDM Account</h4>
+				
 				<form th:action="@{/registration}" th:object="${user}" method="post">
 
 					<p class="error-message" th:if="${#fields.hasGlobalErrors()}"
@@ -159,20 +159,19 @@ width:100%;
 						error</p>
 					
 					<div class="form-group"
-						th:classappend="${#fields.hasErrors('clubID')}? 'has-error':''">
+						th:classappend="${#fields.hasErrors('userName')}? 'has-error':''">
 						<input
-							id="memberID" class="txtbox" th:field="*{clubID}" placeholder="Club ID : 123456"  required="required"/>
+							id="userName" class="txtbox" th:field="*{userName}" placeholder="User Name: Kanagavel"  required="required"/>
 						<p class="error-message"
-							th:each="error: ${#fields.errors('clubID')}"
+							th:each="error: ${#fields.errors('userName')}"
 							th:text="${error}">Validation error</p>
 					</div>
-					
 					<div class="form-group"
-						th:classappend="${#fields.hasErrors('memberID')}? 'has-error':''">
+						th:classappend="${#fields.hasErrors('accountName')}? 'has-error':''">
 						<input
-							id="memberID" class="txtbox" th:field="*{memberID}" placeholder="Member ID : 123456"  required="required"/>
+							id="accountName" class="txtbox" th:field="*{accountName}" placeholder="Account Name : Anthem"  required="required"/>
 						<p class="error-message"
-							th:each="error: ${#fields.errors('memberID')}"
+							th:each="error: ${#fields.errors('accountName')}"
 							th:text="${error}">Validation error</p>
 					</div>
 				
@@ -212,7 +211,7 @@ width:100%;
 					<div class="form-group"
 						th:classappend="${#fields.hasErrors('terms')}? 'has-error':''">
 						<input id="terms" type="checkbox" th:field="*{terms}" required="required" />   <label
-							class="control-label" for="terms" style="color:#fff;"> I have read and i agree to the Lions Clubs International <a
+							class="control-label" for="terms" style="color:#fff;"> I have read and i agree to the <a
 							href="#">terms and conditions</a>.
 						</label>
 						<p class="error-message"
@@ -229,8 +228,7 @@ width:100%;
 				
 				
 		<span class="float-left d-inline-block"></span><span
-				class="float-center d-sm-inline-block d-none" style="color: #fff">Powered by Lion - District 342 B1 @
-				2020 Lions District 324 B1 <br/>Privacy Policy | Terms of Use</span>
+				class="float-center d-sm-inline-block d-none" style="color: #fff"></span>
 				<br/><br/>
 	</div>
 	<!-- END: Content-->

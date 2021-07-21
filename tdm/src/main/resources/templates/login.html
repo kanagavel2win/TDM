@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="ICC">
-<title>Lions Club - Login</title>
+<title>TDM - Login</title>
 <link rel="apple-touch-icon"
 	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
 <link rel="shortcut icon" type="image/x-icon"
@@ -123,32 +123,14 @@ width:100%;
 	<!-- BEGIN: Content-->
 	<div class="app-content content"
 		style="background: #004b93; font-family: calibri" align="center">
-		<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
+		
+		
+			<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
 			height="200" width="200">
+		
 		<p style="color: #fff; font-size: 30px;">
-			<b>Welcome to your Lions Account</b>
-		</p>
-		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
-			We have a new <span style="color: #FFD700;"> Member, MyClub,
-				District</span> Login System.
-		</p>
-		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">Your
-			MyClub Account UserName and Password allows you to access </p>
-		<p style="color: #D1D1D1; font-size: 17px; line-height: 15px;">
-			all the Lions information and service insights.</p>
-		<p style="color: #D1D1D1; font-size: 14px; line-height: 15px;">(Lions
-			Club users who do not have a MyClub UserName and Password - Register
-			for Your Account Today.)</p>
-
-
-		<hr style="border-style: dashed; width: 80%;" />
-		<p style="color: #FFD700;">
-			<input type="radio" class="radio radio-glow" name="radioGlow"
-				checked="" value="MEMBER"> &nbsp;&nbsp;MEMBER <input
-				type="radio" class="radiobtn" name="radioGlow" value="CLUB">&nbsp;&nbsp;
-			CLUB <input type="radio" class="radiobtn" name="radioGlow"
-				value="DISTRICT"> &nbsp;&nbsp;DISTRICT
-		</p>
+			<b>Welcome to TDM Account</b>
+		</p>		
 		<hr style="border-style: dashed; width: 80%;" />
 		<p style="color: #fff;">SIGN IN</p>
 		<form th:action="@{/login}" method="post">
@@ -160,7 +142,7 @@ width:100%;
 
 			</div>
 			<input type="text" class="txtbox" name="username"
-				placeholder="Username : Ln_123456" /><br />
+				placeholder="Email: user@ibm.com" /><br />
 			<br /> <input type="password" class="txtbox" name="password"
 				placeholder="Passsword : 123456" /><br />
 			<br /> <input type="submit" value="SIGN IN" class="btn_login" />
@@ -173,18 +155,13 @@ width:100%;
 		<br />
 		
 		<p style="color: #fff; font-size: 20px;">
-			<b>REGISTER YOUR MEMBER / MYCLUB</b>
+			<b>REGISTER YOUR PROFILE</b>
 		</p>
-		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
-			Don't have a Account?		</p>
-		<p style="color: #D1D1D1; font-size: 17px; line-height: 20px;">
-			Create an account today to access all our Information and Services...</p>
 		<p><a href="registration"><input type="button" value="REGISTER" class="btn_login" /></a></p>
 		<br/><br/><br/>
 		
 		<span class="float-left d-inline-block"></span><span
-				class="float-center d-sm-inline-block d-none" style="color: #fff">Powered by Lion - District 342 B1 @
-				2020 Lions District 324 B1 <br/>Privacy Policy | Terms of Use</span>
+				class="float-center d-sm-inline-block d-none" style="color: #fff"></span>
 				<br/><br/>
 			<button class="btn btn-primary btn-icon scroll-top" type="button">
 				<i class="bx bx-up-arrow-alt"></i>
