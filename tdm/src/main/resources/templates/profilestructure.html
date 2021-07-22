@@ -71,6 +71,9 @@
 	color: #8B7E66;
 	text-align: left;
 }
+.fieldTable{
+
+}
 </style>
 
 </head>
@@ -116,55 +119,247 @@
 			<div class="content-body">
 
 				<!-- Zero configuration table -->
-				<section id="basic-datatable">
+				<section id="Layout">
 					<div class="row">
-						<div class="col-6">
-							<div class="card">
-								<table class="table" style="">
+						<div class="col-6" >
+							<div class="card" >
+								<table class="table">
 									<thead>
 										<tr>
-											<th>S.No</th>
-											<th>Layout</th>
+											<th>ORDER NO</th>
+											<th>TYPE</th>
+											<th>TITLE</th>
+											<th>LENGTH</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>1</td>
-											<td>File Header</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Header</td>
+											<td>File Header Heade Heade Heade</td>
+											<td>5000</td>
 										</tr>
 									</tbody>
 
 								</table>
 								<div style="float:right;">
-									<button type="button" style="float:right;" class="btn btn-light-secondary mr-1 mb-1">REMOVE</button>
-									<button type="button" style="float:right;" class="btn btn-light-primary mr-1 mb-1">ADD</button>
+									<button type="button" style="float:right;" class="btn btn-secondary mr-1 mb-1">-</button>
+									<button type="button" style="float:right;" class="btn btn-primary mr-1 mb-1">+</button>
 								
 								</div>
 							</div>
 						</div>
 						<div class="col-6">
-							<div class="card">
+							<div class="card" >
 								<h6>Line Information</h6>
 								<fieldset class="form-group">
-									<label for="basicInput">Title</label> <input type="text"
-										class="form-control" id="basicInput">
+									<table>
+										<tr>
+											<td><label for="basicInput">ORDER.NO</label> </td>
+											<td><label for="basicInput">TYPE</label></td>																												
+										<tr>
+										<tr>
+											<td><input type="hidden" class="form-control" id="basicInput" /></td>
+											<td style="width:50%">
+												<select class="form-control" id="basicSelect">
+													<option>Header</option>
+													<option>Detail</option>
+													<option>Trailer</option>
+												</select>
+											</td>
+																												
+										<tr>																
+									</table>
+									
+																		
 								</fieldset>
 								<fieldset class="form-group">
-									<label for="basicInput">Length</label> <input type="text"
-										class="form-control" id="basicInput">
+									<table>
+										<tr>
+											<td><label for="basicInput">TITLE</label> </td>
+											<td><label for="basicInput">RECORD LENGTH</label> </td>																	
+										<tr>
+										<tr>
+											<td><input type="text" class="form-control" id="basicInput" /></td>
+											<td><input type="text" class="form-control" id="basicInput" /></td>																	
+										<tr>																
+									</table>
 								</fieldset>
-								<fieldset class="form-group">
-									<label for="basicInput">Type</label>
-									<select class="form-control" id="basicSelect">
-										<option>Header</option>
-										<option>Detail</option>
-										<option>Trailer</option>
-									</select>
+								
+								<fieldset class="form-group">								
+									<button type="button" style="float:right;" class="btn btn-light-primary mr-1 mb-1">Update</button>
 								</fieldset>
-
 							</div>
 						</div>
 
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card" style="overflow-x:auto;">
+								<table class="table" >
+									<thead>
+										<tr>
+											<th>S.No</th>
+											<th>FieldName</th>
+											<th>(Start,End)</th>
+											<th>DataType</th>
+											<th>Default_Value</th>
+											<th>Min</th>
+											<th>Max</th>											
+											<th>Generate_Type</th>
+											<th>Custom_Data_Format</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-toggle="modal" data-target="#exampleModalScrollable">
+											<td>1</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+											<td>File Header</td>
+										</tr>
+									</tbody>
+
+								</table>
+								<div >
+									<button type="button" style="" class="btn btn-secondary mr-1 mb-1">-</button>
+									<button type="button" style="" class="btn btn-primary mr-1 mb-1">+</button>
+								
+								</div>
+							</div>
+						</div>
+					
+						<div class="card">
+                                <div class="card-header">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <!-- Button trigger for scrolling content modal -->
+<!--                                         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalScrollable">
+                                            Launch demo modal
+                                        </button> -->
+
+                                        <!--scrolling content Modal -->
+                                        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalScrollableTitle">Configure the field</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <i class="bx bx-x"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <fieldset class="form-group">
+															<label for="basicInput">FIELD NAME</label> 
+															<input type="text" class="form-control" id="basicInput"/>
+														</fieldset>
+														<fieldset class="form-group">
+															
+															<table>
+																<tr>
+																	<td><label for="basicInput">START POSITION</label> </td>
+																	<td><label for="basicInput">LENGTH</label> </td>																	
+																<tr>
+																<tr>
+																	<td><input type="text" class="form-control" id="basicInput" /></td>
+																	<td><input type="text" class="form-control" id="basicInput" /></td>																	
+																<tr>																
+															</table>
+														</fieldset>
+														<fieldset class="form-group">
+															<label for="basicInput">DATATYPE</label> 
+															<select class="form-control" id="basicSelect">
+																<option>Text</option>
+																<option>Number</option>
+																<option>Boolean</option>
+																<option>AlphaNumeric</option>
+																<option>Date</option>
+																<option>CustomDataType</option>
+																<option>DefaultValue</option>
+															</select>	
+														</fieldset>
+														<fieldset class="form-group">
+															<label for="basicInput">DEFAULT_VALUE (Separate by "|")</label> 
+															<input type="text" class="form-control" id="basicInput"/>
+														</fieldset>
+														<fieldset class="form-group">
+															<table>
+																<tr>
+																	<td><label for="basicInput">MIN(Start) VALUE</label> </td>
+																	<td><label for="basicInput">MAX(End) VALUE</label> </td>																	
+																<tr>
+																<tr>
+																	<td><input type="text" class="form-control" id="basicInput" /></td>
+																	<td><input type="text" class="form-control" id="basicInput" /></td>																	
+																<tr>																
+															</table>															
+														</fieldset>
+														<fieldset class="form-group">
+															<label for="basicInput">GENERATE_TYPE</label> 
+															<select class="form-control" id="basicSelect">
+																<option></option>
+																<option>Random</option>
+																<option>Custom</option>
+																<option>Increment</option>
+																<option>Decrement</option>																
+															</select>
+														</fieldset>		
+														<fieldset class="form-group">
+															<label for="basicInput">CUSTOM_DATA_FORMAT</label> 
+															<input type="text" class="form-control" id="basicInput"/>
+														</fieldset>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Close</span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary ml-1" data-dismiss="modal">
+                                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">UPDATE</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>	
 					</div>
 				</section>
 				<!--/ Zero configuration table -->
@@ -232,7 +427,12 @@
 	<!-- BEGIN: Page JS-->
 	<script th:src="@{/app-assets/js/scripts/datatables/datatable.js}"></script>
 	<!-- END: Page JS-->
-
+	<script>
+		$(document).ready(function(){
+//			$($(this).attr("data-target")).modal("show");
+			//$("#exampleModalScrollable").modal();
+		});
+	</script>
 </body>
 <!-- END: Body-->
 
