@@ -1,6 +1,7 @@
 package com.tdm.tdm.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdm.tdm.dao.UserRepository;
+import com.tdm.tdm.entity.ProfileLayout;
 import com.tdm.tdm.entity.ProfileMaster;
 import com.tdm.tdm.entity.User;
+import com.tdm.tdm.service.ProfileLayoutService;
 import com.tdm.tdm.service.ProfileMasterService;
 
 @Controller
@@ -29,6 +34,9 @@ public class HomeController {
 
 	@Autowired
 	private ProfileMasterService profileMasterService;	
+	
+	@Autowired
+	private ProfileLayoutService profileLayoutService;
 	
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
@@ -165,8 +173,36 @@ public class HomeController {
 	}
 	
 	@GetMapping("profileLayout")
-	public String profileStructureEdit(Model model)
+	public String profileStructureEdit(Model model, @RequestParam("id") int profileID)
 	{	
+		List<ProfileLayout> Objprl = profileLayoutService.findByProfileID(profileID);
+		
+		model.addAttribute("profilelayouts",Objprl);
 		return "profilestructure";
 	}
+
+	@PostMapping("profileLayoutSaveJS")
+	@ResponseBody
+	public String profileLayoutSaveJS(Model model, @RequestParam Map<String,String> profileLayoutData) {
+		
+		try {
+			ProfileLayout objPL=new  ProfileLayout();
+			objPL.setId(Integer.parseInt(profileLayoutData.get("id")));
+			objPL.setProfileID(Integer.parseInt(profileLayoutData.get("profileID")));
+			objPL.setOrderID(Integer.parseInt(profileLayoutData.get("orderID")));
+			objPL.setLineType(profileLayoutData.get("lineType"));
+			objPL.setLineTitle(profileLayoutData.get("lineTitle"));
+			objPL.setLineLength(profileLayoutData.get("lineLength"));
+			profileLayoutService.save(objPL);
+			return "layoutSaved";
+			
+		}catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			return "error";
+		}
+		
+		
+	}
+	
 }

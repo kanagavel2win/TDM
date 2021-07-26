@@ -5,6 +5,9 @@
 <!-- BEGIN: Head-->
 
 <head>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -12,7 +15,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="ICC">
-<title>Profile List</title>
+<title>Layout Edit</title>
 <link rel="apple-touch-icon"
 	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
 <link rel="shortcut icon" type="image/x-icon"
@@ -60,7 +63,7 @@
 }
 
 .table td {
-	padding: 5px;
+	padding-left: 30px;
 	text-align: left;
 	color: #104E8B;
 }
@@ -69,10 +72,11 @@
 	background: #E0E0E0;
 	font-weight: normal;
 	color: #8B7E66;
-	text-align: left;
+	
 }
-.fieldTable{
-
+.LayoutTable{
+	border: none;
+	
 }
 </style>
 
@@ -122,7 +126,7 @@
 				<section id="Layout">
 					<div class="row">
 						<div class="col-6" >
-							<div class="card" >
+							<div class="card" style="overflow-x:auto;overflow-y:auto; max-height:250px;">
 								<table class="table">
 									<thead>
 										<tr>
@@ -133,51 +137,24 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
+										<tr th:each="profilelayout : ${profilelayouts}" class="profilelayoutTable">
+											
+											<td class="LineID" th:id="${profilelayout['id']}"><span th:id="'orderID'+${profilelayout['id']}"  th:text="${profilelayout['orderID']}"></span><input type="hidden" class="profileID" th:value="${profilelayout['profileID']}" /></td>
+											<td><span th:id="'lineType'+${profilelayout['id']}" th:text="${profilelayout['lineType']}"></span></td>
+											<td><span th:id="'lineTitle'+${profilelayout['id']}" th:text="${profilelayout['lineTitle']}"></span></td>
+											<td><span th:id="'lineLength'+${profilelayout['id']}" th:text="${profilelayout['lineLength']}"></span></td>
 										</tr>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Header</td>
-											<td>File Header Heade Heade Heade</td>
-											<td>5000</td>
-										</tr>
+										
 									</tbody>
 
 								</table>
-								<div style="float:right;">
+								
+							</div>
+							<div style="float:right;">
 									<button type="button" style="float:right;" class="btn btn-secondary mr-1 mb-1">-</button>
 									<button type="button" style="float:right;" class="btn btn-primary mr-1 mb-1">+</button>
 								
 								</div>
-							</div>
 						</div>
 						<div class="col-6">
 							<div class="card" >
@@ -189,14 +166,17 @@
 											<td><label for="basicInput">TYPE</label></td>																												
 										<tr>
 										<tr>
-											<td><input type="hidden" class="form-control" id="basicInput" /></td>
+											<td>
+											<input type="hidden" class="form-control" id="LineID" />
+											<input type="text" class="form-control" id="orderID" /></td>
 											<td style="width:50%">
-												<select class="form-control" id="basicSelect">
+												<select class="form-control" id="lineType">
 													<option>Header</option>
 													<option>Detail</option>
 													<option>Trailer</option>
+													<option>--</option>
 												</select>
-											</td>
+										 	</td>
 																												
 										<tr>																
 									</table>
@@ -210,14 +190,14 @@
 											<td><label for="basicInput">RECORD LENGTH</label> </td>																	
 										<tr>
 										<tr>
-											<td><input type="text" class="form-control" id="basicInput" /></td>
-											<td><input type="text" class="form-control" id="basicInput" /></td>																	
+											<td><input type="text" class="form-control" id="lineTitle" /></td>
+											<td><input type="text" class="form-control" id="lineLength" /></td>																	
 										<tr>																
 									</table>
 								</fieldset>
 								
 								<fieldset class="form-group">								
-									<button type="button" style="float:right;" class="btn btn-light-primary mr-1 mb-1">Update</button>
+									<button type="button" id="updateLayoutInfo" style="float:right;" class="btn btn-light-primary mr-1 mb-1">Update</button>
 								</fieldset>
 							</div>
 						</div>
@@ -429,8 +409,90 @@
 	<!-- END: Page JS-->
 	<script>
 		$(document).ready(function(){
-//			$($(this).attr("data-target")).modal("show");
+			//-------------------------------------------------------------------------
+			//-------------------------------------------------------------------------
+			/* var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e,xhr,options) {
+			   xhr.setRequestHeader(header, token);
+			} */
+			//-------------------------------------------------------------------------
+			//-------------------------------------------------------------------------
+			//$($(this).attr("data-target")).modal("show");
 			//$("#exampleModalScrollable").modal();
+		
+			$(".profilelayoutTable").click(function(){
+				var $id = $(this).closest("tr").find(".LineID").attr("id");         
+				$("#LineID").val($id);
+				$("#orderID").val($("#orderID"+$id).text());
+				$("#lineType").val($("#lineType"+$id).text());
+				$("#lineTitle").val($("#lineTitle"+$id).text());
+				$("#lineLength").val($("#lineLength"+$id).text());
+			});
+			
+			$("#updateLayoutInfo").click(function(){
+				 var $id = $("#LineID").val();
+				$("#orderID"+$id).text($("#orderID").val());
+				$("#lineType"+$id).text($("#lineType").val());
+				$("#lineTitle"+$id).text($("#lineTitle").val());
+				$("#lineLength"+$id).text($("#lineLength").val());
+			
+				if ($("#LineID").val() == "" || $("#orderID").val() == "" || $("#lineType").val() == "" || $("#lineTitle").val() == "" || $("#lineLength").val() == "") {
+					alert("Please fill all the fields");
+				} else {
+			
+					var token = $('#_csrf').attr('content');
+					var header = $('#_csrf_header').attr('content');
+
+
+					var formData = {
+									id :$("#LineID").val(),
+									profileID : $(".profileID").val(),
+									orderID : $("#orderID").val(),
+									lineType : $("#lineType").val(),
+									lineTitle : $("#lineTitle").val(),
+									lineLength : $("#lineLength").val()
+									}
+								
+					$.ajax({
+		                        type: "POST",
+		                        url: "profileLayoutSaveJS",
+		                        data : formData,
+		                        beforeSend: function(xhr) {
+		                            xhr.setRequestHeader(header, token);
+		                        },
+
+		                        success: function(data, textStatus, jqXHR) {
+		                            alert(data);
+		                        },
+		                        error: function(request, status, error) {
+		                            alert(data);
+		                        }
+		                    });	
+
+				}
+
+			});
+
+			//--------------------------------------------------------------------------------------------------------------------------------------		 
+			//--------------------------------------------------------------------------------------------------------------------------------------		 		
+/* 
+			$(function() {
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				//alert(token);
+				/* var token = $("input[name='_csrf']").val();
+				
+				var header = 'X-CSRF-TOKEN';
+				$("meta[name='_csrf_header']").attr("content"); 
+				$(document).ajaxSend(function(e, xhr, options) {
+					xhr.setRequestHeader(header, token);
+				});
+			}); */
+			//--------------------------------------------------------------------------------------------------------------------------------------		 
+			//--------------------------------------------------------------------------------------------------------------------------------------		 		
+
+			
 		});
 	</script>
 </body>
