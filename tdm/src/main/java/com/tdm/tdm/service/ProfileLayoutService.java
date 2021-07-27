@@ -11,4 +11,5 @@ public interface ProfileLayoutService {
 	ProfileLayout save(ProfileLayout obj);
 	List<ProfileLayout> findAll();
 	List<ProfileLayout> findByProfileID(int ID);
+	public void deleteByID(int ID);
 }

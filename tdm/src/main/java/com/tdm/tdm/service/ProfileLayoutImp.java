@@ -44,4 +44,10 @@ public class ProfileLayoutImp implements ProfileLayoutService {
 		return profileLayoutRepository.findByProfileID(ID);
 	}
 
+	@Override
+	public void deleteByID(int ID) {
+		 profileLayoutRepository.deleteById(ID);
+		
+	}
+
 }

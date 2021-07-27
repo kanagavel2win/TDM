@@ -28,16 +28,15 @@ import com.tdm.tdm.service.ProfileMasterService;
 @Controller
 public class HomeController {
 
-	
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
-	private ProfileMasterService profileMasterService;	
-	
+	private ProfileMasterService profileMasterService;
+
 	@Autowired
 	private ProfileLayoutService profileLayoutService;
-	
+
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
 
@@ -115,7 +114,7 @@ public class HomeController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User user2 = userRepository.findByEmail(currentPrincipalName);
-		return user2.getuserName(); 
+		return user2.getuserName();
 
 	}
 
@@ -147,62 +146,82 @@ public class HomeController {
 
 	@GetMapping("/newprofile")
 	public String profileMasterAdd(Model model) {
-		
-		ProfileMaster obj=new ProfileMaster();
-		/*obj.setProfileName("IFSI");
-		obj.setDescription("Claims");*/
+
+		ProfileMaster obj = new ProfileMaster();
+		/*
+		 * obj.setProfileName("IFSI"); obj.setDescription("Claims");
+		 */
 		model.addAttribute("ProfileMaster", obj);
 		return "profileMasterAdd";
 	}
-	
+
 	@PostMapping("saveprofile")
-	public String saveprofile(HttpServletRequest request, @ModelAttribute("ProfileMaster") ProfileMaster profile, Model model)
-	{
+	public String saveprofile(HttpServletRequest request, @ModelAttribute("ProfileMaster") ProfileMaster profile,
+			Model model) {
 		profileMasterService.save(profile);
 		model.addAttribute("ProfileMaster", new ProfileMaster());
-		model.addAttribute("savestatus","Saved");
+		model.addAttribute("savestatus", "Saved");
 		return "profileMasterAdd";
 	}
-	
+
 	@GetMapping("list")
 	public String profileListView(Model model) {
-		List<ProfileMaster> list= profileMasterService.findAll();
-		
-		model.addAttribute("profileList",list);		
+		List<ProfileMaster> list = profileMasterService.findAll();
+
+		model.addAttribute("profileList", list);
 		return "profileList";
 	}
-	
+
 	@GetMapping("profileLayout")
-	public String profileStructureEdit(Model model, @RequestParam("id") int profileID)
-	{	
+	public String profileStructureEdit(Model model, @RequestParam("id") int profileID) {
 		List<ProfileLayout> Objprl = profileLayoutService.findByProfileID(profileID);
-		
-		model.addAttribute("profilelayouts",Objprl);
+
+		model.addAttribute("profilelayouts", Objprl);
+		model.addAttribute("profileID", profileID);
 		return "profilestructure";
 	}
 
 	@PostMapping("profileLayoutSaveJS")
 	@ResponseBody
-	public String profileLayoutSaveJS(Model model, @RequestParam Map<String,String> profileLayoutData) {
-		
+	public String profileLayoutSaveJS(Model model, @RequestParam Map<String, String> profileLayoutData) {
+
 		try {
-			ProfileLayout objPL=new  ProfileLayout();
-			objPL.setId(Integer.parseInt(profileLayoutData.get("id")));
+			ProfileLayout objPL = new ProfileLayout();
+			String lineID=profileLayoutData.get("id");
+			
+			if(lineID.contains("new")==false)
+			{
+			objPL.setId(Integer.parseInt(lineID));
+			}
 			objPL.setProfileID(Integer.parseInt(profileLayoutData.get("profileID")));
 			objPL.setOrderID(Integer.parseInt(profileLayoutData.get("orderID")));
 			objPL.setLineType(profileLayoutData.get("lineType"));
 			objPL.setLineTitle(profileLayoutData.get("lineTitle"));
 			objPL.setLineLength(profileLayoutData.get("lineLength"));
 			profileLayoutService.save(objPL);
-			return "layoutSaved";
-			
-		}catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
+			return "Changes are Saved";
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			return "error";
 		}
-		
-		
+
 	}
 	
+	@PostMapping("profileLayoutDeleteJS")
+	@ResponseBody
+	public String profileLayoutDeleteJS(Model model, @RequestParam("id") String ID)
+	{
+			try
+			{
+				profileLayoutService.deleteByID(Integer.parseInt(ID));
+				return "Layout has been Deleted";
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return "error";
+			}
+			
+	
+	}
 }
