@@ -7,9 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="profileLayout")
-public class ProfileLayout  {
-	
+@Table(name = "profileLayout")
+public class ProfileLayout implements Comparable<ProfileLayout> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -18,9 +18,9 @@ public class ProfileLayout  {
 	private String lineType;
 	private String lineTitle;
 	private String lineLength;
-	
+
 	public ProfileLayout() {
-		
+
 	}
 
 	public int getId() {
@@ -87,5 +87,15 @@ public class ProfileLayout  {
 				+ lineType + ", lineTitle=" + lineTitle + ", lineLength=" + lineLength + "]";
 	}
 
+	@Override
+	public int compareTo(ProfileLayout o) {
+
+		if (this.getOrderID() == o.getOrderID())
+			return 0;
+		else if (this.getOrderID() > o.getOrderID())
+			return 1;
+		else
+			return -1;
+	}
 
 }

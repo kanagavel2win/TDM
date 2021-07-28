@@ -176,11 +176,11 @@
 											<input type="hidden" class="form-control" id="LineID" />
 											<input type="text" class="form-control" id="orderID" /></td>
 											<td style="width:50%">
-												<select class="form-control" id="lineType">
-													<option>Header</option>
-													<option>Detail</option>
-													<option>Trailer</option>
-													<option>--</option>
+												<select class="form-control" id="lineType" name="linetype">
+													<option value="Header">Header</option>
+													<option value="Detail">Detail</option>
+													<option value="Trailer">Trailer</option>
+													<option value="">--</option>
 												</select>
 										 	</td>
 																												
@@ -365,8 +365,7 @@
 	<footer class="footer footer-static footer-light">
 		<p class="clearfix mb-0">
 			<span class="float-left d-inline-block"></span><span
-				class="float-right d-sm-inline-block d-none">Copy Right @
-				Lions Clubs - District 324 B1 | PRIVACY POLICY</span>
+				class="float-right d-sm-inline-block d-none"></span>
 			<button class="btn btn-primary btn-icon scroll-top" type="button">
 				<i class="bx bx-up-arrow-alt"></i>
 			</button>
@@ -417,6 +416,8 @@
 		$(document).ready(function(){
 			//-------------------------------------------------------------------------
 			//-------------------------------------------------------------------------
+			 
+			 
 			var token = $('#_csrf').attr('content');
 			var header = $('#_csrf_header').attr('content');
 
@@ -433,16 +434,17 @@
 			});
 			
 			$("#updateLayoutInfo").click(function(){
-				 var $id = $("#LineID").val();
+				
+				var $id = $("#LineID").val();
 				$("#orderID"+$id).text($("#orderID").val());
 				$("#lineType"+$id).text($("#lineType").val());
 				$("#lineTitle"+$id).text($("#lineTitle").val());
 				$("#lineLength"+$id).text($("#lineLength").val());
-			
-				if ($("#orderID").val() == "" || $("#lineType").val() == "" || $("#lineTitle").val() == "" || $("#lineLength").val() == "") {
+				//debugger;
+				if ($("#orderID").val() == "" || $("#lineTitle").val() == "" || $("#lineLength").val() == "") {
 					alert("Please fill all the fields");
 				} else {
-			
+					
 					var LineID=$("#LineID").val();
 					if(LineID=="")
 						{
@@ -453,7 +455,7 @@
 									id :LineID,
 									profileID : $(".profileID").val(),
 									orderID : $("#orderID").val(),
-									lineType : $("#lineType").val(),
+									lineType : $('#lineType').val(),
 									lineTitle : $("#lineTitle").val(),
 									lineLength : $("#lineLength").val()
 									}
@@ -520,6 +522,7 @@
 		            }
 				    
 				});
+				LineID=$("#LineID").val('');
 			}	
 			});
 			//--------------------------------------------------------------------------------------------------------------------------------------		 

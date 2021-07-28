@@ -1,5 +1,6 @@
 package com.tdm.tdm.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdm.tdm.dao.UserRepository;
 import com.tdm.tdm.entity.ProfileLayout;
+import com.tdm.tdm.entity.ProfileLayoutFields;
 import com.tdm.tdm.entity.ProfileMaster;
 import com.tdm.tdm.entity.User;
+import com.tdm.tdm.service.ProfileLayoutFieldsService;
 import com.tdm.tdm.service.ProfileLayoutService;
 import com.tdm.tdm.service.ProfileMasterService;
 
@@ -36,6 +39,9 @@ public class HomeController {
 
 	@Autowired
 	private ProfileLayoutService profileLayoutService;
+
+	@Autowired
+	private ProfileLayoutFieldsService profileLayoutFieldsService;
 
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
@@ -175,7 +181,7 @@ public class HomeController {
 	@GetMapping("profileLayout")
 	public String profileStructureEdit(Model model, @RequestParam("id") int profileID) {
 		List<ProfileLayout> Objprl = profileLayoutService.findByProfileID(profileID);
-
+		Collections.sort(Objprl);
 		model.addAttribute("profilelayouts", Objprl);
 		model.addAttribute("profileID", profileID);
 		return "profilestructure";
@@ -187,11 +193,10 @@ public class HomeController {
 
 		try {
 			ProfileLayout objPL = new ProfileLayout();
-			String lineID=profileLayoutData.get("id");
-			
-			if(lineID.contains("new")==false)
-			{
-			objPL.setId(Integer.parseInt(lineID));
+			String lineID = profileLayoutData.get("id");
+
+			if (lineID.contains("new") == false) {
+				objPL.setId(Integer.parseInt(lineID));
 			}
 			objPL.setProfileID(Integer.parseInt(profileLayoutData.get("profileID")));
 			objPL.setOrderID(Integer.parseInt(profileLayoutData.get("orderID")));
@@ -207,21 +212,35 @@ public class HomeController {
 		}
 
 	}
-	
+
 	@PostMapping("profileLayoutDeleteJS")
 	@ResponseBody
-	public String profileLayoutDeleteJS(Model model, @RequestParam("id") String ID)
-	{
-			try
-			{
-				profileLayoutService.deleteByID(Integer.parseInt(ID));
-				return "Layout has been Deleted";
-			}catch(Exception ex)
-			{
-				ex.printStackTrace();
-				return "error";
-			}
-			
-	
+	public String profileLayoutDeleteJS(Model model, @RequestParam("id") String ID) {
+		try {
+			profileLayoutService.deleteByID(Integer.parseInt(ID));
+			return "Layout has been Deleted";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "error";
+		}
+
+	}
+
+	@PostMapping("getProfileLayoutFieldJS")
+	public String getProfileLayoutFieldJS(Model model, @RequestParam("profileid") String profileID,
+			@RequestParam("lineID") String lineID) {
+		try {
+			int profileID_temp = Integer.parseInt(profileID);
+			int lineID_temp = Integer.parseInt(lineID);
+			List<ProfileLayoutFields> objList = profileLayoutFieldsService.findByProfileIDAndLineID(profileID_temp,
+					lineID_temp);
+
+			model.addAttribute("columnList", objList);
+			return "profileLayoutFieldsJS";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "profileLayoutFieldsJS";
+		}
+
 	}
 }

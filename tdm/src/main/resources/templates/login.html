@@ -86,7 +86,8 @@
 	color: #fff;
 	background: red;
 	height: 30px;
-	text-align: center; font-size : 20px;
+	text-align: center;
+	font-size: 20px;
 	width: 300px;
 	font-size: 20px;
 }
@@ -94,16 +95,27 @@
 .weserve {
 	color: #fff;
 	font-family: calibri;
-	font-size:50px;
-	margin-top:100%;
-	overflow:visible;
-width:100%;
+	font-size: 50px;
+	margin-top: 100%;
+	overflow: visible;
+	width: 100%;
 	transform: rotate(-90deg);
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
 	-o-transform: rotate(-90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.logoText {
+	color: #fff;
+	font-size: 60px;
+	height: 200px;
+	vertical-align: middle;
+	text-align: center;
+	padding-top: 100px;
+	font-family: Verdana;
+	text-shadow: 2px 2px 4px #fff;
 }
 </style>
 </head>
@@ -123,14 +135,17 @@ width:100%;
 	<!-- BEGIN: Content-->
 	<div class="app-content content"
 		style="background: #004b93; font-family: calibri" align="center">
-		
-		
-			<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
-			height="200" width="200">
-		
+
+
+		<!-- <img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
+			height="200" width="200"> -->
+		<p class="logoText">
+			<b>IBM</b>
+		</p>
+
 		<p style="color: #fff; font-size: 30px;">
 			<b>Welcome to TDM Account</b>
-		</p>		
+		</p>
 		<hr style="border-style: dashed; width: 80%;" />
 		<p style="color: #fff;">SIGN IN</p>
 		<form th:action="@{/login}" method="post">
@@ -142,30 +157,35 @@ width:100%;
 
 			</div>
 			<input type="text" class="txtbox" name="username"
-				placeholder="Email: user@ibm.com" /><br />
-			<br /> <input type="password" class="txtbox" name="password"
-				placeholder="Passsword : 123456" /><br />
-			<br /> <input type="submit" value="SIGN IN" class="btn_login" />
+				placeholder="Email: user@ibm.com" /><br /> <br /> <input
+				type="password" class="txtbox" name="password"
+				placeholder="Passsword : 123456" /><br /> <br /> <input
+				type="submit" value="SIGN IN" class="btn_login" />
 		</form>
-		<br/>
-		<a href="#" class="forgotpassword"><p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot your Account UserName?or</p>
-		<p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot your password</p>
-		</a>
+		<br /> <a href="#" class="forgotpassword"><p
+				style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot
+				your Account UserName?or</p>
+			<p style="color: #D1D1D1; font-size: 14px; line-height: 20px;">Forgot
+				your password</p> </a>
 		<hr style="border-style: dashed; width: 80%;" />
 		<br />
-		
+
 		<p style="color: #fff; font-size: 20px;">
 			<b>REGISTER YOUR PROFILE</b>
 		</p>
-		<p><a href="registration"><input type="button" value="REGISTER" class="btn_login" /></a></p>
-		<br/><br/><br/>
-		
-		<span class="float-left d-inline-block"></span><span
-				class="float-center d-sm-inline-block d-none" style="color: #fff"></span>
-				<br/><br/>
-			<button class="btn btn-primary btn-icon scroll-top" type="button">
-				<i class="bx bx-up-arrow-alt"></i>
-			</button>
+		<p>
+			<a href="registration"><input type="button" value="REGISTER"
+				class="btn_login" /></a>
+		</p>
+		<br />
+		<br />
+		<br /> <span class="float-left d-inline-block"></span><span
+			class="float-center d-sm-inline-block d-none" style="color: #fff"></span>
+		<br />
+		<br />
+		<button class="btn btn-primary btn-icon scroll-top" type="button">
+			<i class="bx bx-up-arrow-alt"></i>
+		</button>
 	</div>
 	<!-- END: Content-->
 
@@ -174,9 +194,8 @@ width:100%;
 	<div class="drag-target"></div>
 
 	<!-- BEGIN: Footer-->
-	<footer class="footer footer-static footer-light" style="background: #f9c910;">
-		
-	</footer>
+	<footer class="footer footer-static footer-light"
+		style="background: #f9c910;"> </footer>
 	<!-- END: Footer-->
 
 
@@ -210,20 +229,14 @@ width:100%;
 	<script th:src="@{/app-assets/js/scripts/extensions/toastr.js}"></script>
 	<!-- END: Page JS-->
 
-<script type="text/javascript">
-	
-$(document)
-.ready(
-		function() {
-			
-			$(".forgotpassword").click(function() 
-			{
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$(".forgotpassword").click(function() {
 				alert("Contact your club admin. They will help you..!");
 			});
 		});
-		
-
-</script>
+	</script>
 
 </body>
 <!-- END: Body-->
