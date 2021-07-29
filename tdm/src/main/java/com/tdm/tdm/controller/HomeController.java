@@ -243,4 +243,48 @@ public class HomeController {
 		}
 
 	}
+	
+	@PostMapping("profileLayoutFieldsSaveJS")
+	public String profileLayoutFieldsSaveJS(Model model, @RequestParam Map<String, String> profileLayoutFieldsData) {
+
+		try {
+			
+			int selectItemID= Integer.parseInt(profileLayoutFieldsData.get("selectItemID"));
+			int selectProfileID= Integer.parseInt(profileLayoutFieldsData.get("selectProfileID"));
+			int selectLineID= Integer.parseInt(profileLayoutFieldsData.get("selectLineID"));
+			int COLUMN_NO= Integer.parseInt(profileLayoutFieldsData.get("COLUMN_NO"));
+			String FIELDNAME= profileLayoutFieldsData.get("FIELDNAME");
+			String START_POS= profileLayoutFieldsData.get("START_POS");
+			String END_POS= profileLayoutFieldsData.get("END_POS");
+			String F_DATATYPE= profileLayoutFieldsData.get("F_DATATYPE");
+			String DEFAULT_VALUE= profileLayoutFieldsData.get("DEFAULT_VALUE");
+			String F_MIN= profileLayoutFieldsData.get("F_MIN");
+			String F_MAX= profileLayoutFieldsData.get("F_MAX");
+			String GENERATE_TYPE= profileLayoutFieldsData.get("GENERATE_TYPE");
+			String CUSTOM_DATA_FORMAT= profileLayoutFieldsData.get("CUSTOM_DATA_FORMAT");
+	
+			ProfileLayoutFields obj =new ProfileLayoutFields();
+			obj.setCOLUMN_NO(COLUMN_NO);
+			obj.setID(selectItemID);
+			obj.setProfileID(selectProfileID);
+			obj.setLineID(selectLineID);
+			obj.setFIELDNAME(FIELDNAME);
+			obj.setSTART_POS(START_POS);
+			obj.setEND_POS(END_POS);
+			obj.setF_DATATYPE(F_DATATYPE);
+			obj.setDEFAULT_VALUE(DEFAULT_VALUE);
+			obj.setF_MAX(F_MAX);
+			obj.setF_MIN(F_MIN);
+			obj.setGENERATE_TYPE(GENERATE_TYPE);
+			obj.setCUSTOM_DATA_FORMAT(CUSTOM_DATA_FORMAT);
+			
+			profileLayoutFieldsService.save(obj);
+			return "Changes are Saved";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "error";
+		}
+
+	}
+	
 }

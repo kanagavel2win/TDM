@@ -1,16 +1,102 @@
-	
-	<span th:each="serv,iter : ${services}">
-	
-		<tr>
-			<td th:text="${iter.index+1}"></td>
-			<td th:utext="${#strings.replace(serv.clubID,'.0','')}"></td>
-			<td th:text="${serv.name}"></td>
-			<td th:utext="${#strings.replace(serv.numberOfActivities,'.0','')}"></td>
-			<td th:utext="${#strings.replace(serv.peopleServed,'.0','')}"></td>
-			<td th:utext="${#strings.replace(serv.totalVolunteers,'.0','')}"></td>
-			<td th:utext="${#strings.replace(serv.totalVolunteerHours,'.0','')}"></td>
-			<td th:utext="${#strings.replace(serv.fundsDonatedUSD,'.0','')}"></td>
-			<td th:text="${serv.totalPoints}"></td>
-	
-		</tr>
-	</span>
+
+<tr th:each="columns: ${columnList}" data-toggle="modal"
+	data-target="#exampleModalScrollable"
+	th:id="${columns.ID}+'|'+${columns.profileID}+'|'+${columns.lineID}"
+	class="profilelayoutfieldsTableRow">
+	<td th:text="${columns.COLUMN_NO}" th:id="'COLUMN_NO'+${columns.ID}"></td>
+	<td th:text="${columns.FIELDNAME}" th:id="'FIELDNAME'+${columns.ID}"></td>
+	<td th:text="${columns.START_POS}+','+${columns.END_POS}"
+		th:id="'POS'+${columns.ID}"></td>
+	<td th:text="${columns.F_DATATYPE}" th:id="'F_DATATYPE'+${columns.ID}"></td>
+	<td th:text="${columns.DEFAULT_VALUE}"
+		th:id="'DEFAULT_VALUE'+${columns.ID}"></td>
+	<td th:text="${columns.F_MIN}" th:id="'F_MIN'+${columns.ID}"></td>
+	<td th:text="${columns.F_MAX}" th:id="'F_MAX'+${columns.ID}"></td>
+	<td th:text="${columns.GENERATE_TYPE}"
+		th:id="'GENERATE_TYPE'+${columns.ID}"></td>
+	<td th:text="${columns.CUSTOM_DATA_FORMAT}"
+		th:id="'CUSTOM_DATA_FORMAT'+${columns.ID}"></td>
+</tr>
+
+
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						var $selectItemID = "";
+						var $selectProfileID = "";
+						var $selectLineID = "";
+
+						//---------------------------------------------------------------------
+						//---------------------------------------------------------------------
+						$(".profilelayoutfieldsTableRow")
+								.click(
+										function() {
+											var $id = $(this).attr("id");
+											var $arr = $id.split("|");
+
+											$selectItemID = $arr[0];
+											$selectProfileID = $arr[1];
+											$selectLineID = $arr[2];
+
+											var $pos = $("#POS" + $selectItemID).text().split(",");
+
+											$POPUP_COLUMN_NO = $("#COLUMN_NO"+ $selectItemID).text();
+											$POPUP_FIELDNAME = $(
+													"#FIELDNAME"
+															+ $selectItemID)
+													.text();
+											$POPUP_START_POS = $pos[0];
+											$POPUP_END_POS = $pos[1];
+											$POPUP_F_DATATYPE = $(
+													"#F_DATATYPE"
+															+ $selectItemID)
+													.text();
+											$POPUP_DEFAULT_VALUE = $(
+													"#DEFAULT_VALUE"
+															+ $selectItemID)
+													.text();
+											$POPUP_F_MIN = $(
+													"#F_MIN" + $selectItemID)
+													.text();
+											$POPUP_F_MAX = $(
+													"#F_MAX" + $selectItemID)
+													.text();
+											$POPUP_GENERATE_TYPE = $(
+													"#GENERATE_TYPE"
+															+ $selectItemID)
+													.text();
+											$POPUP_CUSTOM_DATA_FORMAT = $(
+													"#CUSTOM_DATA_FORMAT"
+															+ $selectItemID)
+													.text();
+
+											$("#POPUP_COLUMN_NO").val($POPUP_COLUMN_NO);
+											$("#POPUP_FIELDNAME").val(
+													$POPUP_FIELDNAME);
+											$("#POPUP_START_POS").val(
+													$POPUP_START_POS);
+											$("#POPUP_END_POS").val(
+													$POPUP_END_POS);
+											$("#POPUP_F_DATATYPE").val(
+													$POPUP_F_DATATYPE);
+											$("#POPUP_DEFAULT_VALUE").val(
+													$POPUP_DEFAULT_VALUE);
+											$("#POPUP_F_MIN").val($POPUP_F_MIN);
+											$("#POPUP_F_MAX").val($POPUP_F_MAX);
+											$("#POPUP_GENERATE_TYPE").val(
+													$POPUP_GENERATE_TYPE);
+											$("#POPUP_CUSTOM_DATA_FORMAT").val(
+													$POPUP_CUSTOM_DATA_FORMAT);
+
+										});
+						//---------------------------------------------------------------------
+						//---------------------------------------------------------------------
+		
+						
+						//---------------------------------------------------------------------
+						//---------------------------------------------------------------------
+		
+					});
+</script>

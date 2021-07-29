@@ -5,8 +5,9 @@
 <!-- BEGIN: Head-->
 
 <head>
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,11 +73,10 @@
 	background: #E0E0E0;
 	font-weight: normal;
 	color: #8B7E66;
-	
 }
-.LayoutTable{
+
+.LayoutTable {
 	border: none;
-	
 }
 </style>
 
@@ -125,8 +125,9 @@
 				<!-- Zero configuration table -->
 				<section id="Layout">
 					<div class="row">
-						<div class="col-6" >
-							<div class="card" style="overflow-x:auto;overflow-y:auto; max-height:250px;">
+						<div class="col-6">
+							<div class="card"
+								style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
 								<table class="table">
 									<thead>
 										<tr>
@@ -137,73 +138,83 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="profilelayout : ${profilelayouts}" class="profilelayoutTable">
-											
+										<tr th:each="profilelayout : ${profilelayouts}"
+											class="profilelayoutTable">
+
 											<td class="LineID" th:id="${profilelayout['id']}">
 												<div class="checkbox">
-                                                        <input type="checkbox" class="checkbox-input ChkboxlayoutRow" th:id="checkbox+${profilelayout['id']}">
-                                                        <label th:for="checkbox+${profilelayout['id']}"></label>
-                                                  </div>
-												<span th:id="'orderID'+${profilelayout['id']}"  th:text="${profilelayout['orderID']}"></span></td>
-											<td><span th:id="'lineType'+${profilelayout['id']}" th:text="${profilelayout['lineType']}"></span></td>
-											<td><span th:id="'lineTitle'+${profilelayout['id']}" th:text="${profilelayout['lineTitle']}"></span></td>
-											<td><span th:id="'lineLength'+${profilelayout['id']}" th:text="${profilelayout['lineLength']}"></span></td>
+													<input type="checkbox"
+														class="checkbox-input ChkboxlayoutRow"
+														th:id="checkbox+${profilelayout['id']}"> <label
+														th:for="checkbox+${profilelayout['id']}"></label>
+												</div> <span th:id="'orderID'+${profilelayout['id']}"
+												th:text="${profilelayout['orderID']}"></span>
+											</td>
+											<td><span th:id="'lineType'+${profilelayout['id']}"
+												th:text="${profilelayout['lineType']}"></span></td>
+											<td><span th:id="'lineTitle'+${profilelayout['id']}"
+												th:text="${profilelayout['lineTitle']}"></span></td>
+											<td><span th:id="'lineLength'+${profilelayout['id']}"
+												th:text="${profilelayout['lineLength']}"></span></td>
 										</tr>
-										
+
 									</tbody>
 
 								</table>
-								
+
 							</div>
-							<div style="float:right;">
-									<input type="hidden" class="profileID" th:value="${profileID}" />
-									<button type="button" id="btnlayoutRowDelete" style="float:right;" class="btn btn-secondary mr-1 mb-1">DELETE</button>
-									<button type="button" id="btnlayoutRowAdd" style="float:right;" class="btn btn-primary mr-1 mb-1">ADD</button>
-								
-								</div>
+							<div style="float: right;">
+								<input type="hidden" class="profileID" th:value="${profileID}" />
+								<button type="button" id="btnlayoutRowDelete"
+									style="float: right;" class="btn btn-secondary mr-1 mb-1">DELETE</button>
+								<button type="button" id="btnlayoutRowAdd" style="float: right;"
+									class="btn btn-primary mr-1 mb-1">ADD</button>
+
+							</div>
 						</div>
 						<div class="col-6">
-							<div class="card" >
+							<div class="card">
 								<h6>Line Information</h6>
 								<fieldset class="form-group">
 									<table>
 										<tr>
-											<td><label for="basicInput">ORDER.NO</label> </td>
-											<td><label for="basicInput">TYPE</label></td>																												
+											<td><label for="basicInput">ORDER.NO</label></td>
+											<td><label for="basicInput">TYPE</label></td>
 										<tr>
 										<tr>
-											<td>
-											<input type="hidden" class="form-control" id="LineID" />
-											<input type="text" class="form-control" id="orderID" /></td>
-											<td style="width:50%">
-												<select class="form-control" id="lineType" name="linetype">
+											<td><input type="hidden" class="form-control"
+												id="LineID" /> <input type="text" class="form-control"
+												id="orderID" /></td>
+											<td style="width: 50%"><select class="form-control"
+												id="lineType" name="linetype">
 													<option value="Header">Header</option>
 													<option value="Detail">Detail</option>
 													<option value="Trailer">Trailer</option>
 													<option value="">--</option>
-												</select>
-										 	</td>
-																												
-										<tr>																
+											</select></td>
+										<tr>
 									</table>
-									
-																		
+
+
 								</fieldset>
 								<fieldset class="form-group">
 									<table>
 										<tr>
-											<td><label for="basicInput">TITLE</label> </td>
-											<td><label for="basicInput">RECORD LENGTH</label> </td>																	
+											<td><label for="basicInput">TITLE</label></td>
+											<td><label for="basicInput">RECORD LENGTH</label></td>
 										<tr>
 										<tr>
-											<td><input type="text" class="form-control" id="lineTitle" /></td>
-											<td><input type="text" class="form-control" id="lineLength" /></td>																	
-										<tr>																
+											<td><input type="text" class="form-control"
+												id="lineTitle" /></td>
+											<td><input type="text" class="form-control"
+												id="lineLength" /></td>
+										<tr>
 									</table>
 								</fieldset>
-								
-								<fieldset class="form-group">								
-									<button type="button" id="updateLayoutInfo" style="float:right;" class="btn btn-light-primary mr-1 mb-1">UPDATE</button>
+
+								<fieldset class="form-group">
+									<button type="button" id="updateLayoutInfo"
+										style="float: right;" class="btn btn-light-primary mr-1 mb-1">UPDATE</button>
 								</fieldset>
 							</div>
 						</div>
@@ -211,8 +222,8 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<div class="card" style="overflow-x:auto;">
-								<table class="table" >
+							<div class="card" style="overflow-x: auto;">
+								<table class="table" id="tblLayoutFields">
 									<thead>
 										<tr>
 											<th>S.No</th>
@@ -221,131 +232,144 @@
 											<th>DataType</th>
 											<th>Default_Value</th>
 											<th>Min</th>
-											<th>Max</th>											
+											<th>Max</th>
 											<th>Generate_Type</th>
 											<th>Custom_Data_Format</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr data-toggle="modal" data-target="#exampleModalScrollable">
-											<td>1</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-											<td>File Header</td>
-										</tr>
+
 									</tbody>
 
 								</table>
-								<div >
-									<button type="button" style="" class="btn btn-secondary mr-1 mb-1">-</button>
-									<button type="button" style="" class="btn btn-primary mr-1 mb-1">+</button>
-								
+								<div>
+									<button type="button" style=""
+										class="btn btn-secondary mr-1 mb-1">-</button>
+									<button type="button" style=""
+										class="btn btn-primary mr-1 mb-1">+</button>
+
 								</div>
 							</div>
 						</div>
-					
+
 						<div class="card">
-                                <div class="card-header">
-                                </div>
-                     *           <div class="card-content">
-                                    <div class="card-body">
-                                        <!-- Button trigger for scrolling content modal -->
-<!--                                         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalScrollable">
+							<div class="card-header"></div>
+							*
+							<div class="card-content">
+								<div class="card-body">
+									<!-- Button trigger for scrolling content modal -->
+									<!--                                         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalScrollable">
                                             Launch demo modal
                                         </button> -->
 
-                                        <!--scrolling content Modal -->
-                                        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalScrollableTitle">Configure the field</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <i class="bx bx-x"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <fieldset class="form-group">
-															<label for="basicInput">FIELD NAME</label> 
-															<input type="text" class="form-control" id="basicInput"/>
-														</fieldset>
-														<fieldset class="form-group">
-															
-															<table>
-																<tr>
-																	<td><label for="basicInput">START POSITION</label> </td>
-																	<td><label for="basicInput">LENGTH</label> </td>																	
-																<tr>
-																<tr>
-																	<td><input type="text" class="form-control" id="basicInput" /></td>
-																	<td><input type="text" class="form-control" id="basicInput" /></td>																	
-																<tr>																
-															</table>
-														</fieldset>
-														<fieldset class="form-group">
-															<label for="basicInput">DATATYPE</label> 
-															<select class="form-control" id="basicSelect">
-					*											<option>Text</option>
-																<option>Number</option>
-																<option>Boolean</option>
-																<option>AlphaNumeric</option>
-																<option>Date</option>
-																<option>CustomDataType</option>
-																<option>DefaultValue</option>
-															</select>	
-														</fieldset>
-														<fieldset class="form-group">
-															<label for="basicInput">DEFAULT_VALUE (Separate by "|")</label> 
-															<input type="text" class="form-control" id="basicInput"/>
-														</fieldset>
-														<fieldset class="form-group">
-															<table>
-																<tr>
-																	<td><label for="basicInput">MIN(Start) VALUE</label> </td>
-																	<td><label for="basicInput">MAX(End) VALUE</label> </td>																	
-																<tr>
-																<tr>
-																	<td><input type="text" class="form-control" id="basicInput" /></td>
-																	<td><input type="text" class="form-control" id="basicInput" /></td>																	
-																<tr>																
-															</table>															
-														</fieldset>
-														<fieldset class="form-group">
-															<label for="basicInput">GENERATE_TYPE</label> 
-															<select class="form-control" id="basicSelect">
-																<option></option>
-																<option>Random</option>
-																<option>Custom</option>
-																<option>Increment</option>
-																<option>Decrement</option>																
-															</select>
-														</fieldset>		
-														<fieldset class="form-group">
-															<label for="basicInput">CUSTOM_DATA_FORMAT</label> 
-															<input type="text" class="form-control" id="basicInput"/>
-					*									</fieldset>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-                                                            <i class="bx bx-x d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block">Close</span>
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary ml-1" data-dismiss="modal">
-                                                            <i class="bx bx-check d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block">UPDATE</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>	
+									<!--scrolling content Modal -->
+									<div class="modal fade" id="exampleModalScrollable"
+										tabindex="-1" role="dialog"
+										aria-labelledby="exampleModalScrollableTitle"
+										style="display: none;" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-scrollable"
+											role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalScrollableTitle">Configure
+														the field</h5>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<i class="bx bx-x"></i>
+													</button>
+												</div>
+												<div class="modal-body">
+													<fieldset class="form-group">
+														<label for="basicInput">COLUMN No(FIELD No)</label> <input
+															type="text" class="form-control" id="POPUP_COLUMN_NO" />
+													</fieldset>
+													<fieldset class="form-group">
+														<label for="basicInput">FIELD NAME</label> <input
+															type="text" class="form-control" id="POPUP_FIELDNAME" />
+													</fieldset>
+													<fieldset class="form-group">
+
+														<table>
+															<tr>
+																<td><label for="basicInput">START POSITION</label>
+																</td>
+																<td><label for="basicInput">LENGTH</label></td>
+															<tr>
+															<tr>
+																<td><input type="text" class="form-control"
+																	id="POPUP_START_POS" /></td>
+																<td><input type="text" class="form-control"
+																	id="POPUP_END_POS" /></td>
+															<tr>
+														</table>
+													</fieldset>
+													<fieldset class="form-group">
+														<label for="basicInput">DATATYPE</label> <select
+															class="form-control" id="POPUP_F_DATATYPE">
+															<option>Text</option>
+															<option>Number</option>
+															<option>Boolean</option>
+															<option>AlphaNumeric</option>
+															<option>Date</option>
+															<option>CustomDataType</option>
+															<option>DefaultValue</option>
+														</select>
+													</fieldset>
+													<fieldset class="form-group">
+														<label for="basicInput">DEFAULT_VALUE (Separate by
+															"|")</label> <input type="text" class="form-control"
+															id="POPUP_DEFAULT_VALUE" />
+													</fieldset>
+													<fieldset class="form-group">
+														<table>
+															<tr>
+																<td><label for="basicInput">MIN(Start)
+																		VALUE</label></td>
+																<td><label for="basicInput">MAX(End) VALUE</label>
+																</td>
+															<tr>
+															<tr>
+																<td><input type="text" class="form-control"
+																	id="POPUP_F_MIN" /></td>
+																<td><input type="text" class="form-control"
+																	id="POPUP_F_MAX" /></td>
+															<tr>
+														</table>
+													</fieldset>
+													<fieldset class="form-group">
+														<label for="basicInput">GENERATE_TYPE</label> <select
+															class="form-control" id="POPUP_GENERATE_TYPE">
+															<option></option>
+															<option>Random</option>
+															<option>Custom</option>
+															<option>Increment</option>
+															<option>Decrement</option>
+														</select>
+													</fieldset>
+													<fieldset class="form-group">
+														<label for="basicInput">CUSTOM_DATA_FORMAT</label> <input
+															type="text" class="form-control"
+															id="POPUP_CUSTOM_DATA_FORMAT" />
+													</fieldset>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-light-secondary"
+														data-dismiss="modal">
+														<i class="bx bx-x d-block d-sm-none"></i> <span
+															class="d-none d-sm-block">Close</span>
+													</button>
+													<button type="button" id="PopupLayoutFieldsUpdate"
+														class="btn btn-primary ml-1" data-dismiss="modal">
+														<i class="bx bx-check d-block d-sm-none"></i> <span
+															class="d-none d-sm-block">UPDATE</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 				<!--/ Zero configuration table -->
@@ -413,132 +437,276 @@
 	<script th:src="@{/app-assets/js/scripts/datatables/datatable.js}"></script>
 	<!-- END: Page JS-->
 	<script>
-		$(document).ready(function(){
-			//-------------------------------------------------------------------------
-			//-------------------------------------------------------------------------
-			 
-			 
-			var token = $('#_csrf').attr('content');
-			var header = $('#_csrf_header').attr('content');
+		$(document)
+				.ready(
+						function() {
+							//-------------------------------------------------------------------------
+							//-------------------------------------------------------------------------
 
-			//$($(this).attr("data-target")).modal("show");
-			//$("#exampleModalScrollable").modal();
-		
-			$(".profilelayoutTable").click(function(){
-				var $id = $(this).closest("tr").find(".LineID").attr("id");         
-				$("#LineID").val($id);
-				$("#orderID").val($("#orderID"+$id).text());
-				$("#lineType").val($("#lineType"+$id).text());
-				$("#lineTitle").val($("#lineTitle"+$id).text());
-				$("#lineLength").val($("#lineLength"+$id).text());
-			});
-			
-			$("#updateLayoutInfo").click(function(){
-				
-				var $id = $("#LineID").val();
-				$("#orderID"+$id).text($("#orderID").val());
-				$("#lineType"+$id).text($("#lineType").val());
-				$("#lineTitle"+$id).text($("#lineTitle").val());
-				$("#lineLength"+$id).text($("#lineLength").val());
-				//debugger;
-				if ($("#orderID").val() == "" || $("#lineTitle").val() == "" || $("#lineLength").val() == "") {
-					alert("Please fill all the fields");
-				} else {
-					
-					var LineID=$("#LineID").val();
-					if(LineID=="")
-						{
-						LineID="new";
-						}
-					
-					var formData = {
-									id :LineID,
-									profileID : $(".profileID").val(),
-									orderID : $("#orderID").val(),
-									lineType : $('#lineType').val(),
-									lineTitle : $("#lineTitle").val(),
-									lineLength : $("#lineLength").val()
-									}
-								
-					$.ajax({
-		                        type: "POST",
-		                        url: "profileLayoutSaveJS",
-		                        data : formData,
-		                        beforeSend: function(xhr) {
-		                            xhr.setRequestHeader(header, token);
-		                        },
+							var token = $('#_csrf').attr('content');
+							var header = $('#_csrf_header').attr('content');
 
-		                        success: function(data, textStatus, jqXHR) {
-		                            alert(data);
-		                            location.reload();
-		                        },
-		                        error: function(request, status, error) {
-		                            alert(data);
-		                        }
-		                    });	
+							//$($(this).attr("data-target")).modal("show");
+							//$("#exampleModalScrollable").modal();
 
-				}
+							$(".profilelayoutTable").click(
+									function() {
+										var $id = $(this).closest("tr").find(
+												".LineID").attr("id");
+										$("#LineID").val($id);
+										$("#orderID").val(
+												$("#orderID" + $id).text());
+										$("#lineType").val(
+												$("#lineType" + $id).text());
+										$("#lineTitle").val(
+												$("#lineTitle" + $id).text());
+										$("#lineLength").val(
+												$("#lineLength" + $id).text());
 
-			});
+										callLoadLayoutFields($id);
+									});
 
-			//--------------------------------------------------------------------------------------------------------------------------------------		 
-			//--------------------------------------------------------------------------------------------------------------------------------------		 		
-			$("#btnlayoutRowDelete").click(function(){
-				
-			var r = confirm("Are you sure to delete");
-			if (r == true) {
-			
-				var sList = "";
-				$('input[type=checkbox]').each(function () {
+							$("#updateLayoutInfo")
+									.click(
+											function() {
 
-					if($(this).is(':checked') && ($(this).attr("class")=="checkbox-input ChkboxlayoutRow"))
-		            {	
-						 $(this).parent().parent().parent().fadeTo(400, 0, function () { 
-						        $(this).remove();
-						    });
-						var deleteID=$(this).attr("id").replace("checkbox","");
-						var formData = {
-								id :deleteID
+												var $id = $("#LineID").val();
+												$("#orderID" + $id).text(
+														$("#orderID").val());
+												$("#lineType" + $id).text(
+														$("#lineType").val());
+												$("#lineTitle" + $id).text(
+														$("#lineTitle").val());
+												$("#lineLength" + $id).text(
+														$("#lineLength").val());
+												//debugger;
+												if ($("#orderID").val() == ""
+														|| $("#lineTitle")
+																.val() == ""
+														|| $("#lineLength")
+																.val() == "") {
+													alert("Please fill all the fields");
+												} else {
+
+													var LineID = $("#LineID")
+															.val();
+													if (LineID == "") {
+														LineID = "new";
+													}
+
+													var formData = {
+														id : LineID,
+														profileID : $(
+																".profileID")
+																.val(),
+														orderID : $("#orderID")
+																.val(),
+														lineType : $(
+																'#lineType')
+																.val(),
+														lineTitle : $(
+																"#lineTitle")
+																.val(),
+														lineLength : $(
+																"#lineLength")
+																.val()
+													}
+
+													$
+															.ajax({
+																type : "POST",
+																url : "profileLayoutSaveJS",
+																data : formData,
+																beforeSend : function(
+																		xhr) {
+																	xhr
+																			.setRequestHeader(
+																					header,
+																					token);
+																},
+
+																success : function(
+																		data,
+																		textStatus,
+																		jqXHR) {
+																	alert(data);
+																	location
+																			.reload();
+																},
+																error : function(
+																		request,
+																		status,
+																		error) {
+																	alert(data);
+																}
+															});
+
+												}
+
+											});
+
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+							$("#btnlayoutRowDelete")
+									.click(
+											function() {
+
+												var r = confirm("Are you sure to delete");
+												if (r == true) {
+
+													var sList = "";
+													$('input[type=checkbox]')
+															.each(
+																	function() {
+
+																		if ($(
+																				this)
+																				.is(
+																						':checked')
+																				&& ($(
+																						this)
+																						.attr(
+																								"class") == "checkbox-input ChkboxlayoutRow")) {
+																			$(
+																					this)
+																					.parent()
+																					.parent()
+																					.parent()
+																					.fadeTo(
+																							400,
+																							0,
+																							function() {
+																								$(
+																										this)
+																										.remove();
+																							});
+																			var deleteID = $(
+																					this)
+																					.attr(
+																							"id")
+																					.replace(
+																							"checkbox",
+																							"");
+																			var formData = {
+																				id : deleteID
+																			}
+
+																			$
+																					.ajax({
+																						type : "POST",
+																						url : "profileLayoutDeleteJS",
+																						data : formData,
+																						beforeSend : function(
+																								xhr) {
+																							xhr
+																									.setRequestHeader(
+																											header,
+																											token);
+																						},
+
+																						success : function(
+																								data,
+																								textStatus,
+																								jqXHR) {
+																							alert(data);
+
+																						},
+																						error : function(
+																								request,
+																								status,
+																								error) {
+																							alert(data);
+																							location
+																									.reload();
+																						}
+																					});
+
+																		}
+
+																	});
+													LineID = $("#LineID").val(
+															'');
+												}
+											});
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+							$("#btnlayoutRowAdd").click(function() {
+								$("#LineID").val("new");
+								$("#orderID").val("");
+								$("#lineTitle").val("");
+								$("#lineLength").val("");
+
+							});
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------		 		
+							function callLoadLayoutFields($id) {
+								$("#tblLayoutFields > tbody").html("");
+
+								var formData = {
+									lineID : $id,
+									profileid : $(".profileID").val()
+
 								}
-							
-						$.ajax({
-	                        type: "POST",
-	                        url: "profileLayoutDeleteJS",
-	                        data : formData,
-	                        beforeSend: function(xhr) {
-	                            xhr.setRequestHeader(header, token);
-	                        },
 
-	                        success: function(data, textStatus, jqXHR) {
-	                            alert(data);
-	                            
-	                        },
-	                        error: function(request, status, error) {
-	                            alert(data);
-	                            location.reload();
-	                        }
-	                    });	
-		             
-		            }
-				    
-				});
-				LineID=$("#LineID").val('');
-			}	
-			});
-			//--------------------------------------------------------------------------------------------------------------------------------------		 
-			//--------------------------------------------------------------------------------------------------------------------------------------		 		
-			$("#btnlayoutRowAdd").click(function(){
-				$("#LineID").val("new");
-				$("#orderID").val("");
-				$("#lineTitle").val("");
-				$("#lineLength").val("");
-		
-			});
-			//--------------------------------------------------------------------------------------------------------------------------------------		 
-			//--------------------------------------------------------------------------------------------------------------------------------------		 		
-			
-			
-		});
+								$
+										.ajax({
+											type : "POST",
+											url : "getProfileLayoutFieldJS",
+											data : formData,
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(header,
+														token);
+											},
+
+											success : function(data,
+													textStatus, jqXHR) {
+
+												$("#tblLayoutFields > tbody")
+														.html(data);
+
+											},
+											error : function(request, status,
+													error) {
+												alert(data);
+											}
+										});
+							}
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------			
+								$("#PopupLayoutFieldsUpdate").click(function() {
+
+							AjaxPOPUP_COLUMN_NO=$("#POPUP_COLUMN_NO").val();
+							AjaxPOPUP_FIELDNAME = $("#POPUP_FIELDNAME").val();
+							AjaxPOPUP_START_POS = $("#POPUP_START_POS").val();
+							AjaxPOPUP_END_POS = $("#POPUP_END_POS").val();
+							AjaxPOPUP_F_DATATYPE = $("#POPUP_F_DATATYPE").val();
+							AjaxPOPUP_DEFAULT_VALUE = $("#POPUP_DEFAULT_VALUE").val();
+							AjaxPOPUP_F_MIN = $("#POPUP_F_MIN").val();
+							AjaxPOPUP_F_MAX = $("#POPUP_F_MAX").val();
+							AjaxPOPUP_GENERATE_TYPE = $("#POPUP_GENERATE_TYPE").val();
+							AjaxPOPUP_CUSTOM_DATA_FORMAT = $("#POPUP_CUSTOM_DATA_FORMAT").val();
+
+							var formData = {
+									selectItemID : $selectItemID,
+									selectProfileID : $selectProfileID,
+									selectLineID : $selectLineID,
+									COLUMN_NO : AjaxCOLUMN_NO,
+									FIELDNAME : AjaxPOPUP_FIELDNAME,
+									START_POS : AjaxPOPUP_START_POS,
+									END_POS : AjaxPOPUP_END_POS,
+									F_DATATYPE : AjaxPOPUP_F_DATATYPE,
+									DEFAULT_VALUE : AjaxPOPUP_DEFAULT_VALUE,
+									F_MIN : AjaxPOPUP_F_MIN,
+									F_MAX : AjaxPOPUP_F_MAX,
+									GENERATE_TYPE : AjaxPOPUP_GENERATE_TYPE,
+									CUSTOM_DATA_FORMAT : AjaxPOPUP_CUSTOM_DATA_FORMAT
+								}
+							alert("ll");
+
+						});
+							//--------------------------------------------------------------------------------------------------------------------------------------		 
+							//--------------------------------------------------------------------------------------------------------------------------------------
+						});
 	</script>
 </body>
 <!-- END: Body-->
