@@ -245,11 +245,16 @@ public class HomeController {
 	}
 	
 	@PostMapping("profileLayoutFieldsSaveJS")
+	@ResponseBody
 	public String profileLayoutFieldsSaveJS(Model model, @RequestParam Map<String, String> profileLayoutFieldsData) {
 
 		try {
+			ProfileLayoutFields obj =new ProfileLayoutFields();
 			
-			int selectItemID= Integer.parseInt(profileLayoutFieldsData.get("selectItemID"));
+			if (profileLayoutFieldsData.get("selectItemID").contains("new") == false) {
+				int selectItemID= Integer.parseInt(profileLayoutFieldsData.get("selectItemID"));
+				obj.setID(selectItemID);
+			}
 			int selectProfileID= Integer.parseInt(profileLayoutFieldsData.get("selectProfileID"));
 			int selectLineID= Integer.parseInt(profileLayoutFieldsData.get("selectLineID"));
 			int COLUMN_NO= Integer.parseInt(profileLayoutFieldsData.get("COLUMN_NO"));
@@ -263,9 +268,8 @@ public class HomeController {
 			String GENERATE_TYPE= profileLayoutFieldsData.get("GENERATE_TYPE");
 			String CUSTOM_DATA_FORMAT= profileLayoutFieldsData.get("CUSTOM_DATA_FORMAT");
 	
-			ProfileLayoutFields obj =new ProfileLayoutFields();
+			
 			obj.setCOLUMN_NO(COLUMN_NO);
-			obj.setID(selectItemID);
 			obj.setProfileID(selectProfileID);
 			obj.setLineID(selectLineID);
 			obj.setFIELDNAME(FIELDNAME);
@@ -284,7 +288,22 @@ public class HomeController {
 			ex.printStackTrace();
 			return "error";
 		}
-
+			
+	}
+	
+	@PostMapping("profileLayoutFieldsDeleteJS")
+	@ResponseBody
+	public String profileLayoutFieldsDeleteJS(Model model, @RequestParam("selectItemID") String selectItemID) {
+		try {
+			int ID=Integer.parseInt(selectItemID); 
+			profileLayoutFieldsService.deleteByID(ID);
+			return "Item has been Deleted";
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return "Error";
+		}
+		
 	}
 	
 }

@@ -3,7 +3,8 @@
 	data-target="#exampleModalScrollable"
 	th:id="${columns.ID}+'|'+${columns.profileID}+'|'+${columns.lineID}"
 	class="profilelayoutfieldsTableRow">
-	<td th:text="${columns.COLUMN_NO}" th:id="'COLUMN_NO'+${columns.ID}"></td>
+	<td th:text="${columns.COLUMN_NO}" th:id="'COLUMN_NO'+${columns.ID}">
+	</td>
 	<td th:text="${columns.FIELDNAME}" th:id="'FIELDNAME'+${columns.ID}"></td>
 	<td th:text="${columns.START_POS}+','+${columns.END_POS}"
 		th:id="'POS'+${columns.ID}"></td>
@@ -72,6 +73,9 @@
 															+ $selectItemID)
 													.text();
 
+											$("#POPUP_ITEMID").val($selectItemID);
+											$("#POPUP_PROFILEID").val($selectProfileID);
+											$("#POPUP_LINEID").val($selectLineID);
 											$("#POPUP_COLUMN_NO").val($POPUP_COLUMN_NO);
 											$("#POPUP_FIELDNAME").val(
 													$POPUP_FIELDNAME);

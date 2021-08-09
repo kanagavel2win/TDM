@@ -243,10 +243,7 @@
 
 								</table>
 								<div>
-									<button type="button" style=""
-										class="btn btn-secondary mr-1 mb-1">-</button>
-									<button type="button" style=""
-										class="btn btn-primary mr-1 mb-1">+</button>
+									<button type="button" id="BtnAddnewField" data-toggle="modal" data-target="#exampleModalScrollable" class="btn btn-primary mr-1 mb-1">+ New Field</button>
 
 								</div>
 							</div>
@@ -282,6 +279,12 @@
 													<fieldset class="form-group">
 														<label for="basicInput">COLUMN No(FIELD No)</label> <input
 															type="text" class="form-control" id="POPUP_COLUMN_NO" />
+															<input
+															type="hidden" class="form-control" id="POPUP_ITEMID" />
+															<input
+															type="hidden" class="form-control" id="POPUP_PROFILEID" />
+															<input
+															type="hidden" class="form-control" id="POPUP_LINEID" />
 													</fieldset>
 													<fieldset class="form-group">
 														<label for="basicInput">FIELD NAME</label> <input
@@ -352,17 +355,28 @@
 															id="POPUP_CUSTOM_DATA_FORMAT" />
 													</fieldset>
 												</div>
+												
 												<div class="modal-footer">
+												
+													
 													<button type="button" class="btn btn-light-secondary"
-														data-dismiss="modal">
+														data-dismiss="modal" id="modelClose">
 														<i class="bx bx-x d-block d-sm-none"></i> <span
 															class="d-none d-sm-block">Close</span>
 													</button>
 													<button type="button" id="PopupLayoutFieldsUpdate"
 														class="btn btn-primary ml-1" data-dismiss="modal">
 														<i class="bx bx-check d-block d-sm-none"></i> <span
-															class="d-none d-sm-block">UPDATE</span>
+															class="d-none d-sm-block">SAVE</span>
 													</button>
+													
+												</div>
+												<div Style="margin-top: -57px; height:100px;width:50px;">
+														<button type="button" id="PopupLayoutFieldsDelete"
+															class="btn btn-secondary ml-1" data-dismiss="modal" >
+															<i class="bx bx-trash-alt d-block d-sm-none"></i> <span
+																class="d-none d-sm-block">DELETE</span>
+														</button>
 												</div>
 											</div>
 										</div>
@@ -641,7 +655,10 @@
 							//--------------------------------------------------------------------------------------------------------------------------------------		 		
 							function callLoadLayoutFields($id) {
 								$("#tblLayoutFields > tbody").html("");
-
+								//-----------------------------------------------------------
+								//--Assign the values to passthe value during Add new fields
+								$("#POPUP_LINEID").val($id);
+								//-----------------------------------------------------------
 								var formData = {
 									lineID : $id,
 									profileid : $(".profileID").val()
@@ -675,6 +692,9 @@
 							//--------------------------------------------------------------------------------------------------------------------------------------			
 								$("#PopupLayoutFieldsUpdate").click(function() {
 
+							AjaxPOPUP_LINEID=$("#POPUP_LINEID").val();
+							AjaxPOPUP_PROFILEID=$("#POPUP_PROFILEID").val();
+							AjaxPOPUP_ITEMID=$("#POPUP_ITEMID").val();
 							AjaxPOPUP_COLUMN_NO=$("#POPUP_COLUMN_NO").val();
 							AjaxPOPUP_FIELDNAME = $("#POPUP_FIELDNAME").val();
 							AjaxPOPUP_START_POS = $("#POPUP_START_POS").val();
@@ -685,12 +705,13 @@
 							AjaxPOPUP_F_MAX = $("#POPUP_F_MAX").val();
 							AjaxPOPUP_GENERATE_TYPE = $("#POPUP_GENERATE_TYPE").val();
 							AjaxPOPUP_CUSTOM_DATA_FORMAT = $("#POPUP_CUSTOM_DATA_FORMAT").val();
-
+							
+							
 							var formData = {
-									selectItemID : $selectItemID,
-									selectProfileID : $selectProfileID,
-									selectLineID : $selectLineID,
-									COLUMN_NO : AjaxCOLUMN_NO,
+									selectItemID : AjaxPOPUP_ITEMID,
+									selectProfileID : AjaxPOPUP_PROFILEID,
+									selectLineID : AjaxPOPUP_LINEID,
+									COLUMN_NO : AjaxPOPUP_COLUMN_NO,
 									FIELDNAME : AjaxPOPUP_FIELDNAME,
 									START_POS : AjaxPOPUP_START_POS,
 									END_POS : AjaxPOPUP_END_POS,
@@ -701,11 +722,82 @@
 									GENERATE_TYPE : AjaxPOPUP_GENERATE_TYPE,
 									CUSTOM_DATA_FORMAT : AjaxPOPUP_CUSTOM_DATA_FORMAT
 								}
-							alert("ll");
-
+								$.ajax({
+									type : "POST",
+									url : "profileLayoutFieldsSaveJS",
+									data : formData,
+									beforeSend : function(xhr) {
+										xhr.setRequestHeader(header, token);
+									},
+	
+									success : function(data,textStatus, jqXHR) {
+										alert(data);
+										callLoadLayoutFields(AjaxPOPUP_LINEID);
+									},
+									error : function(request,status, error) {
+										alert(data);
+									}
+								});
+							
+							
 						});
 							//--------------------------------------------------------------------------------------------------------------------------------------		 
 							//--------------------------------------------------------------------------------------------------------------------------------------
+								
+								$("#PopupLayoutFieldsDelete").click(function() {
+								
+									var r = confirm("Are you sure to delete");
+									if (r == true) {
+										AjaxPOPUP_ITEMID=$("#POPUP_ITEMID").val();
+										AjaxPOPUP_LINEID=$("#POPUP_LINEID").val();
+										
+										var formData = {
+												selectItemID : AjaxPOPUP_ITEMID
+										}
+										$.ajax({
+											type : "POST",
+											url : "profileLayoutFieldsDeleteJS",
+											data : formData,
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(header, token);
+											},
+			
+											success : function(data,textStatus, jqXHR) {
+												alert(data);
+												if(data=="Item has been Deleted")
+												{
+													callLoadLayoutFields(AjaxPOPUP_LINEID);
+												}
+											},
+											error : function(request,status, error) {
+												alert(data);
+											}
+										});
+									}
+								});
+								//--------------------------------------------------------------------------------------------------------------------------------------		 
+								//--------------------------------------------------------------------------------------------------------------------------------------
+							
+								$("#BtnAddnewField").click(function(){
+									
+									$("#POPUP_PROFILEID").val($(".profileID").val());
+									$("#POPUP_ITEMID").val("new");
+									
+									
+									AjaxPOPUP_LINEID=$("#POPUP_LINEID").val();
+									AjaxPOPUP_PROFILEID=$("#POPUP_PROFILEID").val();
+									
+									if(AjaxPOPUP_LINEID=='' || AjaxPOPUP_PROFILEID=='' ||AjaxPOPUP_LINEID==null || AjaxPOPUP_PROFILEID==null)
+									{
+										alert("Please Select Line. Error will throw during Add new line");
+										
+									}
+									
+								});
+								
+								
+								//--------------------------------------------------------------------------------------------------------------------------------------		 
+								//--------------------------------------------------------------------------------------------------------------------------------------
 						});
 	</script>
 </body>
