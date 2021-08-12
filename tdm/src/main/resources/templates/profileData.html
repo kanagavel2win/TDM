@@ -101,12 +101,12 @@
 					<div class="row breadcrumbs-top">
 						<div class="col-12">
 							<h5 class="content-header-title float-left pr-1 mb-0">Profile
-								List</h5>
+								Data</h5>
 							<div class="breadcrumb-wrapper col-12">
 								<ol class="breadcrumb p-0 mb-0">
 									<li class="breadcrumb-item"><a href="index"><i
 											class="bx bx-home-alt"></i></a></li>
-									<li class="breadcrumb-item active">Profile List</li>
+									<li class="breadcrumb-item active">Profile Data</li>
 								</ol>
 							</div>
 						</div>
@@ -119,6 +119,7 @@
 				<section id="basic-datatable">
 					<div class="row">
 						<div class="col-12">
+						
 							
 							<div class="card">
 								<div class="card-header">
@@ -132,42 +133,24 @@
 												<thead>
 													<tr>
 														<th>S.No</th>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Edit</th>
-														<th>View Data</th>
-
+														<th>Data</th>
+														
 
 
 													</tr>
 												</thead>
 												<tbody>
-													<tr th:each="profile : ${profileList}">
-														<td style="padding-left:50px" th:text="${profile['profileid']}"></td>
-														<td><span th:text="${profile['profileName']}"></span></td>
-														<td th:text="${profile['description']}"></td>
-														<td style="padding-left:50px">
-														<a th:href="'profileLayout?id=' + @{{id} (id=${profile['profileid']})}"
-															><i class="bx bxs-edit-alt"
-																style="font-size: 26px"></i></a>
-														</td>
-														<td style="padding-left:50px">
-														<a  th:href="'profileDataView?id=' + @{{id} (id=${profile['profileid']})}"
-															><i class="bx bx-search"
-																style="font-size: 26px"></i></a>
-																														
-														</td>
-
+													<tr th:each="profiledata,iter : ${dataMasteObj}">
+														<td style="padding-left:50px" th:text="${iter.index+1}"></td>
+									-					<td><span th:text="${profiledata['data_Details']}"></span></td>
+														
 													</tr>
 												</tbody>
 												<tfoot>
 													<tr>
 														<th>S.No</th>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Edit</th>
-														<th>View Data</th>
-
+														<th>Data</th>
+		
 													</tr>
 												</tfoot>
 											</table>

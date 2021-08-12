@@ -45,7 +45,12 @@ public class HomeController {
 
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
+		
+		GetLoginDetail(themodel, session, request); 
 
+	}
+
+	public Model GetLoginDetail(Model themodel, HttpSession session, HttpServletRequest request) {
 		String dataLoginEmailID = "";
 		String dataLoginUserName = "";
 		try {
@@ -73,9 +78,9 @@ public class HomeController {
 			themodel.addAttribute("dataLoginEmailID", dataLoginEmailID);
 			themodel.addAttribute("dataLoginUserName", dataLoginUserName);
 		}
-
+		return themodel;
 	}
-
+	
 	@GetMapping("/")
 	public String home(Model theModel, HttpSession session, HttpServletRequest request) {
 
@@ -234,7 +239,7 @@ public class HomeController {
 			int lineID_temp = Integer.parseInt(lineID);
 			List<ProfileLayoutFields> objList = profileLayoutFieldsService.findByProfileIDAndLineID(profileID_temp,
 					lineID_temp);
-
+			Collections.sort(objList);
 			model.addAttribute("columnList", objList);
 			return "profileLayoutFieldsJS";
 		} catch (Exception ex) {
@@ -305,5 +310,6 @@ public class HomeController {
 		}
 		
 	}
+
 	
 }
