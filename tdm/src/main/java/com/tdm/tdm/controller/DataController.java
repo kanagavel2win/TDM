@@ -276,6 +276,8 @@ public class DataController {
 		int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);		//How many days to get the corresponding year and month
 		int day=(int)(Math.random()*dayOfMonth+1)	;		//Generating random days
 		return year+""+month+""+day;
+	
+		
 		
 	}
 }
