@@ -277,6 +277,5 @@ public class DataController {
 		int day=(int)(Math.random()*dayOfMonth+1)	;		//Generating random days
 		return year+""+month+""+day;
 		
-		
 	}
 }
