@@ -7,8 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "profileMaster")
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ProfileMaster {
 
 	@Id
@@ -18,39 +30,7 @@ public class ProfileMaster {
 	@NotNull
 	private String profileName;
 	private String description;
-	public int getProfileid() {
-		return profileid;
-	}
-	public void setProfileid(int profileid) {
-		this.profileid = profileid;
-	}
-	public String getProfileName() {
-		return profileName;
-	}
-	public void setProfileName(String profileName) {
-		this.profileName = profileName;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public ProfileMaster() {
-		
-	}
-	public ProfileMaster(int profileid, @NotNull String profileName, String description) {
-		super();
-		this.profileid = profileid;
-		this.profileName = profileName;
-		this.description = description;
-	}
-	@Override
-	public String toString() {
-		return "ProfileMaster [profileid=" + profileid + ", profileName=" + profileName + ", description=" + description
-				+ "]";
-	}
-
+	
 	
 	
 }
