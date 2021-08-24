@@ -229,7 +229,7 @@ tbody {
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<div class="card" style="overflow-x: auto;">
+							<div class="card" style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
 								<table class="table" id="tblLayoutFields">
 									<thead>
 										<tr>
@@ -249,11 +249,16 @@ tbody {
 									</tbody>
 
 								</table>
-								<div>
-									<button type="button" id="BtnAddnewField" data-toggle="modal" data-target="#exampleModalScrollable" class="btn btn-primary mr-1 mb-1">+ New Field</button>
-
-								</div>
+								
 							</div>
+							<div>
+									<button type="button" id="BtnAddnewField" data-toggle="modal" data-target="#exampleModalScrollable" class="btn btn-primary mr-1 mb-1">+ New Field</button>
+									<button type="button" id="BtnImport" style="" class="btn btn-secondary mr-1 mb-1">Import New Layout Fields</button>
+									<a th:href="@{/Doc/TDMTemplate.xlsx}"  target="_blank"><button type="button" id="BtnDownloadTemplate" style="" class="btn btn-primary mr-1 mb-1">Download Template</button>
+									</a>
+								</div>
+								
+								
 						</div>
 
 						<div class="card">
@@ -318,7 +323,6 @@ tbody {
 															class="form-control" id="POPUP_F_DATATYPE">
 															<option>Text</option>
 															<option>Number</option>
-															<option>Boolean</option>
 															<option>AlphaNumeric</option>
 															<option>Date</option>
 															<option>CustomDataType</option>
@@ -802,6 +806,29 @@ tbody {
 									
 								});
 								
+								
+								$("#BtnImport").click(function(){
+									
+									$("#POPUP_PROFILEID").val($(".profileID").val());
+									$("#POPUP_ITEMID").val("new");
+									
+									
+									AjaxPOPUP_LINEID=$("#POPUP_LINEID").val();
+									AjaxPOPUP_PROFILEID=$("#POPUP_PROFILEID").val();
+									
+									if(AjaxPOPUP_LINEID=='' || AjaxPOPUP_PROFILEID=='' ||AjaxPOPUP_LINEID==null || AjaxPOPUP_PROFILEID==null)
+									{
+										alert("Please Select Line.");
+										
+									}else
+									{
+										window.location= "uploadprofile?profileid="+AjaxPOPUP_PROFILEID+"&lineid="+AjaxPOPUP_LINEID;
+									}
+									
+								});
+								
+								//--------------------------------------------------------------------------------------------------------------------------------------		 
+								//--------------------------------------------------------------------------------------------------------------------------------------
 								
 								//--------------------------------------------------------------------------------------------------------------------------------------		 
 								//--------------------------------------------------------------------------------------------------------------------------------------

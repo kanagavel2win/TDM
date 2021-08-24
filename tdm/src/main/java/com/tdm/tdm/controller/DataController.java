@@ -1,21 +1,32 @@
 package com.tdm.tdm.controller;
 
-import java.sql.Date;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tdm.tdm.entity.DataMaster;
 import com.tdm.tdm.entity.ProfileLayout;
@@ -115,14 +126,14 @@ public class DataController {
 				if (GenerateType.contains("Random")) {
 					dataList = generateNumber(dataList, layoutFields);
 				}
-			}else if (fielddataType.equals("AlphaNumeric")) {
+			} else if (fielddataType.equals("AlphaNumeric")) {
 
 				if (GenerateType.contains("Random")) {
 					dataList = generateAlphaNumeric(dataList, layoutFields);
 				}
-			}else if(fielddataType.equals("Date")) {
+			} else if (fielddataType.equals("Date")) {
 				dataList = generateDate(dataList, layoutFields);
-				
+
 			}
 
 		}
@@ -132,19 +143,21 @@ public class DataController {
 		return dataList;
 
 	}
+
 	private List<String> generateDate(List<String> dataList, ProfileLayoutFields layoutFields) {
 		List<String> TempdataList = new ArrayList();
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
-	
+
 		for (String str : dataList) {
 			TempdataList.add(str.concat(equalizationFieldLength(
-					String.valueOf(randomValueInDate(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))), strLength)));
+					String.valueOf(randomValueInDate(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))),
+					strLength)));
 		}
-		
+
 		return TempdataList;
-	
+
 	}
 
 	private List<String> generateNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
@@ -155,18 +168,19 @@ public class DataController {
 
 		for (String str : dataList) {
 			TempdataList.add(str.concat(equalizationFieldLength(
-					String.valueOf(randomValueInNumeric(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))), strLength)));
+					String.valueOf(randomValueInNumeric(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))),
+					strLength)));
 		}
 
 		return TempdataList;
 	}
 
-	private List<String> generateAlphaNumeric(List<String> dataList, ProfileLayoutFields layoutFields){
-		List<String> TempDataList= new ArrayList();
+	private List<String> generateAlphaNumeric(List<String> dataList, ProfileLayoutFields layoutFields) {
+		List<String> TempDataList = new ArrayList();
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
-		
+
 		if (!(MinValue.isEmpty() || MinValue.isEmpty())) {
 			for (String str : dataList) {
 				TempDataList.add(str.concat(equalizationFieldLength(
@@ -177,9 +191,10 @@ public class DataController {
 				TempDataList.add(str.concat(equalizationFieldLength(randomValueInAlphanumeric(strLength), strLength)));
 			}
 		}
-		
+
 		return TempDataList;
 	}
+
 	private List<String> generateString(List<String> dataList, ProfileLayoutFields layoutFields) {
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
@@ -267,17 +282,58 @@ public class DataController {
 		return generatedString;
 	}
 
-	private String randomValueInDate(int startYear, int endYear)
-	{
-		int year = (int)(Math.random()*(endYear-startYear+1))+startYear;	//Random year
-		int month= (int)(Math.random()*12)+1;								//Random Month
-		Calendar c = Calendar.getInstance();				//Create Calendar objects
-		c.set(year, month, 0);								//Setting Date
-		int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);		//How many days to get the corresponding year and month
-		int day=(int)(Math.random()*dayOfMonth+1)	;		//Generating random days
-		return year+""+month+""+day;
-	
-		
-		
+	private String randomValueInDate(int startYear, int endYear) {
+		int year = (int) (Math.random() * (endYear - startYear + 1)) + startYear; // Random year
+		int month = (int) (Math.random() * 12) + 1; // Random Month
+		Calendar c = Calendar.getInstance(); // Create Calendar objects
+		c.set(year, month, 0); // Setting Date
+		int dayOfMonth = c.get(Calendar.DAY_OF_MONTH); // How many days to get the corresponding year and month
+		int day = (int) (Math.random() * dayOfMonth + 1); // Generating random days
+		return year + "" + month + "" + day;
+
 	}
+
+	@GetMapping("uploadprofile")
+	public String uploadprofile(Model themodel, @RequestParam("profileid") int profileid,
+			@RequestParam("lineid") int lineid) {
+
+		themodel.addAttribute("profileid", profileid);
+		themodel.addAttribute("lineid", lineid);
+		return "profileLayoutUpload";
+	}
+
+	@PostMapping("uploadprofile")
+	public String postuploadprofile(@RequestParam("file") MultipartFile file, Model themodel,
+			@RequestParam("profileid") int profileid, @RequestParam("lineid") int lineid) throws IOException {
+
+		if (file.isEmpty()) {
+			themodel.addAttribute("message", "Please select a xlsx file to upload.");
+			themodel.addAttribute("status", false);
+		} else {
+
+			Workbook workbook = new XSSFWorkbook(file.getInputStream());
+			Sheet sheet = (Sheet) workbook.getSheet("LayoutFields");
+			Iterator<Row> rows = sheet.iterator();
+			DataFormatter formatter = new DataFormatter(Locale.US);
+			
+			while (rows.hasNext()) {
+				Row currentRow = rows.next();
+
+				Iterator<Cell> cellsInRow = currentRow.iterator();
+
+				while (cellsInRow.hasNext()) {
+					Cell currentCell = cellsInRow.next();
+					String data="";
+					System.out.println(formatter.formatCellValue(currentCell));
+
+				}
+
+				workbook.close();
+			}
+		}
+		themodel.addAttribute("profileid", profileid);
+		themodel.addAttribute("lineid", lineid);
+		return "profileLayoutUpload";
+	}
+
 }
