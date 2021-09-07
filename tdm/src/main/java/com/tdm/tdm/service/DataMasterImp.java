@@ -16,4 +16,7 @@ public interface DataMasterImp {
 
 	void DeleteByID(int id);
 
+	List<DataMaster> SaveAll(List dataMasterList);
+
+	void DeleteByProfileID(int id);
 }

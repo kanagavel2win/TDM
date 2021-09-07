@@ -3,6 +3,8 @@ package com.tdm.tdm.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.tdm.tdm.dao.DataMasterRepository;
 import com.tdm.tdm.entity.DataMaster;
 
 @Service
+@Transactional
 public class DataMasterService implements DataMasterImp {
 
 	@Autowired
@@ -50,6 +53,17 @@ public class DataMasterService implements DataMasterImp {
 	@Override
 	public List<DataMaster> FindbyProfileID(int id) {
 		return dataMasterRepository.findByProfileID(id);
+	}
+
+	@Override
+	public List<DataMaster> SaveAll(List dataMasterList) {
+		return dataMasterRepository.saveAll(dataMasterList);
+	}
+
+	@Override
+	public void DeleteByProfileID(int id) {
+		dataMasterRepository.deleteByProfileID(id);
+		
 	}
 
 }

@@ -73,6 +73,11 @@ public class DataController {
 		themodel.addAttribute("profileMasterObj", profileMasterObj);
 		themodel.addAttribute("profileLayoutObj", listObj);
 		themodel.addAttribute("dataMasteObj", dataObj);
+		
+		/*for(DataMaster obj:dataObj)
+		{
+			System.out.println(obj.getData_Details());
+		}*/
 		return themodel;
 	}
 
@@ -99,6 +104,7 @@ public class DataController {
 				Lineid);
 		Collections.sort(layoutFieldsList);
 		List<String> dataList = new ArrayList();
+		List<DataMaster> dataMasterList = new ArrayList();
 
 		// Handle If data list comes as Empty
 		if (dataList.size() == 0) {
@@ -137,10 +143,22 @@ public class DataController {
 			}
 
 		}
-
-		dataList.forEach(System.out::println);
-
-		return dataList;
+		// Print in Console All list
+		//dataList.forEach(System.out::println);
+		
+		//Save All Object to DB
+		dataMasterService.DeleteByProfileID(ProfileID);
+		for(String str:dataList)
+		{
+			DataMaster dataMasterObj= new DataMaster();
+			dataMasterObj.setLineID(Lineid);
+			dataMasterObj.setProfileID(ProfileID);
+			dataMasterObj.setData_Details(str);
+			dataMasterService.Save(dataMasterObj);
+			
+		}
+		
+				return dataList;
 
 	}
 

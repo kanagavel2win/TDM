@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="ICC">
-<title>Profile List</title>
+<title>Profile Data</title>
 <link rel="apple-touch-icon"
 	th:href="@{/app-assets/images/ico/apple-icon-120.png}">
 <link rel="shortcut icon" type="image/x-icon"
@@ -123,7 +123,14 @@
 							
 							<div class="card">
 								<div class="card-header">
-									
+										<div class="alert mb-2"  style="background:#228B22;color:#fff"  th:if="${DataGenerated}">
+                                            Data Generated Successfully
+                                        </div>
+                                        
+                                    <a th:href="'GenerateData?id=' + @{{id} (id=${profileMasterObj.profileid})}"><input type="button" class="btn btn-primary mr-1 mb-1"
+												value="Generate Fresh Data" />
+									</a>
+									<p>Note: If you generate data, Old data will delete completely </p>		
 								</div>
 								<div class="card-content">
 									<div class="card-body card-dashboard">
