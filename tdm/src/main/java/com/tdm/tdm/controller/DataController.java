@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,12 +12,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,6 +90,7 @@ public class DataController {
 		}
 
 		themodel = getData(themodel, id);
+		themodel.addAttribute("DataGenerated", true);
 		return "profileData";
 	}
 
@@ -146,14 +146,15 @@ public class DataController {
 
 	private List<String> generateDate(List<String> dataList, ProfileLayoutFields layoutFields) {
 		List<String> TempdataList = new ArrayList();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
 
 		for (String str : dataList) {
-			TempdataList.add(str.concat(equalizationFieldLength(
-					String.valueOf(randomValueInDate(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))),
-					strLength)));
+			TempdataList.add(equalizationFieldLength(str,
+					String.valueOf(randomValueInDate(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))), startPos,
+					strLength));
 		}
 
 		return TempdataList;
@@ -162,14 +163,16 @@ public class DataController {
 
 	private List<String> generateNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
 		List<String> TempdataList = new ArrayList();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
+
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
 
 		for (String str : dataList) {
-			TempdataList.add(str.concat(equalizationFieldLength(
+			TempdataList.add(equalizationFieldLength(str,
 					String.valueOf(randomValueInNumeric(Integer.parseInt(MinValue), Integer.parseInt(MaxValue))),
-					strLength)));
+					startPos, strLength));
 		}
 
 		return TempdataList;
@@ -179,16 +182,18 @@ public class DataController {
 		List<String> TempDataList = new ArrayList();
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 
 		if (!(MinValue.isEmpty() || MinValue.isEmpty())) {
 			for (String str : dataList) {
-				TempDataList.add(str.concat(equalizationFieldLength(
-						randomValueInAlphanumeric(Integer.parseInt(MinValue), Integer.parseInt(MaxValue)), strLength)));
+				TempDataList.add(equalizationFieldLength(str,
+						randomValueInAlphanumeric(Integer.parseInt(MinValue), Integer.parseInt(MaxValue)), startPos,
+						strLength));
 			}
 		} else {
 			for (String str : dataList) {
-				TempDataList.add(str.concat(equalizationFieldLength(randomValueInAlphanumeric(strLength), strLength)));
+				TempDataList.add(equalizationFieldLength(str,randomValueInAlphanumeric(strLength), startPos, strLength));
 			}
 		}
 
@@ -198,18 +203,21 @@ public class DataController {
 	private List<String> generateString(List<String> dataList, ProfileLayoutFields layoutFields) {
 		String MinValue = layoutFields.getF_MIN();
 		String MaxValue = layoutFields.getF_MAX();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 
 		List<String> TempdataList = new ArrayList();
 
 		if (!(MinValue.isEmpty() || MinValue.isEmpty())) {
 			for (String str : dataList) {
-				TempdataList.add(str.concat(equalizationFieldLength(
-						randomValueInString(Integer.parseInt(MinValue), Integer.parseInt(MaxValue)), strLength)));
+				TempdataList.add(equalizationFieldLength(str,
+						randomValueInString(Integer.parseInt(MinValue), Integer.parseInt(MaxValue)), startPos,
+						strLength));
 			}
 		} else {
 			for (String str : dataList) {
-				TempdataList.add(str.concat(equalizationFieldLength(randomValueInString(strLength), strLength)));
+				TempdataList
+						.add(equalizationFieldLength(str,randomValueInString(strLength), startPos, strLength));
 			}
 		}
 
@@ -218,6 +226,7 @@ public class DataController {
 
 	private List<String> splitDefaultValue(List<String> dataList, ProfileLayoutFields layoutFields) {
 		String defaultValue = layoutFields.getDEFAULT_VALUE().toString().trim();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 		List<String> splitdata = new ArrayList();
 		if (!defaultValue.contains("|")) {
@@ -236,21 +245,23 @@ public class DataController {
 
 		for (Object Str : splitdata) {
 			for (String ListStr : dataList) {
-				TempdataList.add(ListStr.concat(equalizationFieldLength(Str.toString(), strLength)));
+				TempdataList.add(equalizationFieldLength(ListStr,Str.toString(), startPos, strLength));
 			}
 		}
 
 		return TempdataList;
 	}
 
-	private String equalizationFieldLength(String str, int Length) {
+	private String equalizationFieldLength(String srcStr, String str, int startPos, int Length) {
 
-		if (Length > str.length()) {
+		int strlen = srcStr.length();
 
-			return String.format("%" + Length + "s", str);
-		} else {
-			return str;
+		if ((startPos - 1) > strlen) {
+			srcStr=String.format("%-" + (startPos - 1) + "s", srcStr);
 		}
+
+		return srcStr.concat(String.format("%" + Length + "s", str));
+		
 	}
 
 	private int randomValueInNumeric(int minVal, int maxVal) {
@@ -310,26 +321,51 @@ public class DataController {
 			themodel.addAttribute("message", "Please select a xlsx file to upload.");
 			themodel.addAttribute("status", false);
 		} else {
-
-			Workbook workbook = new XSSFWorkbook(file.getInputStream());
-			Sheet sheet = (Sheet) workbook.getSheet("LayoutFields");
-			Iterator<Row> rows = sheet.iterator();
 			DataFormatter formatter = new DataFormatter(Locale.US);
-			
-			while (rows.hasNext()) {
-				Row currentRow = rows.next();
+			try {
 
-				Iterator<Cell> cellsInRow = currentRow.iterator();
+				Workbook wb = WorkbookFactory.create(file.getInputStream());
+				Sheet sheet = wb.getSheetAt(0);
+				Header header = sheet.getHeader();
 
-				while (cellsInRow.hasNext()) {
-					Cell currentCell = cellsInRow.next();
-					String data="";
-					System.out.println(formatter.formatCellValue(currentCell));
+				int rowsCount = sheet.getLastRowNum();
+				// System.out.println("Total Number of Rows: " + (rowsCount + 1));
+				for (int i = 1; i <= rowsCount; i++) {
+					Row row = sheet.getRow(i);
+					int colCounts = row.getLastCellNum();
+					// System.out.println("Total Number of Cols: " + colCounts);
 
+					ProfileLayoutFields ObjLayoutFields = new ProfileLayoutFields();
+
+					/*
+					 * for (int j = 0; j < colCounts; j++) { Cell cell = row.getCell(j);
+					 * System.out.println("[" + i + "," + j + "]=" +
+					 * (formatter.formatCellValue(cell)));
+					 * 
+					 */
+
+					ObjLayoutFields.setProfileID(profileid);
+					ObjLayoutFields.setLineID(lineid);
+					ObjLayoutFields.setCOLUMN_NO(Integer.parseInt(formatter.formatCellValue(row.getCell(0))));
+					ObjLayoutFields.setFIELDNAME(formatter.formatCellValue(row.getCell(1)));
+					ObjLayoutFields.setSTART_POS(formatter.formatCellValue(row.getCell(2)));
+					ObjLayoutFields.setEND_POS(formatter.formatCellValue(row.getCell(3)));
+					ObjLayoutFields.setF_DATATYPE(formatter.formatCellValue(row.getCell(4)));
+					ObjLayoutFields.setDEFAULT_VALUE(formatter.formatCellValue(row.getCell(5)));
+					ObjLayoutFields.setF_MIN(formatter.formatCellValue(row.getCell(6)));
+					ObjLayoutFields.setF_MAX(formatter.formatCellValue(row.getCell(7)));
+					ObjLayoutFields.setGENERATE_TYPE(formatter.formatCellValue(row.getCell(8)));
+					ObjLayoutFields.setCUSTOM_DATA_FORMAT(formatter.formatCellValue(row.getCell(9)));
+					profileLayoutFieldsService.save(ObjLayoutFields);
+					// System.out.println(ObjLayoutFields);
 				}
 
-				workbook.close();
+				themodel.addAttribute("dataSaveStatus", "Saved");
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
+
 		}
 		themodel.addAttribute("profileid", profileid);
 		themodel.addAttribute("lineid", lineid);

@@ -128,9 +128,16 @@
 									</table>									
  
 								</div>
+								
 								<div class="card-content">
 									<div class="card-body card-dashboard">
 										<p class="card-text"></p>
+										
+										<div class="alert mb-2"  style="background:#228B22;color:#fff"  th:if="${dataSaveStatus}">
+                                            Data Imported Successfully
+                                        </div>
+									 <a  th:href="'profileLayout?id=' + @{{id} (id=${profileid})}"><button type="button" class="btn btn-light-secondary mr-1 mb-1">Go Back to profile</button></a>
+									                                         
 										<form method="POST" th:action="@{/uploadprofile}"
 											enctype="multipart/form-data">
 											<div class="form-group">
