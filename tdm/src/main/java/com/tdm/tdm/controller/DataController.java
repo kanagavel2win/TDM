@@ -1,17 +1,19 @@
 package com.tdm.tdm.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Row;
@@ -73,11 +75,10 @@ public class DataController {
 		themodel.addAttribute("profileMasterObj", profileMasterObj);
 		themodel.addAttribute("profileLayoutObj", listObj);
 		themodel.addAttribute("dataMasteObj", dataObj);
-		
-		/*for(DataMaster obj:dataObj)
-		{
-			System.out.println(obj.getData_Details());
-		}*/
+
+		/*
+		 * for(DataMaster obj:dataObj) { System.out.println(obj.getData_Details()); }
+		 */
 		return themodel;
 	}
 
@@ -144,21 +145,20 @@ public class DataController {
 
 		}
 		// Print in Console All list
-		//dataList.forEach(System.out::println);
-		
-		//Save All Object to DB
+		// dataList.forEach(System.out::println);
+
+		// Save All Object to DB
 		dataMasterService.DeleteByProfileID(ProfileID);
-		for(String str:dataList)
-		{
-			DataMaster dataMasterObj= new DataMaster();
+		for (String str : dataList) {
+			DataMaster dataMasterObj = new DataMaster();
 			dataMasterObj.setLineID(Lineid);
 			dataMasterObj.setProfileID(ProfileID);
 			dataMasterObj.setData_Details(str);
 			dataMasterService.Save(dataMasterObj);
-			
+
 		}
-		
-				return dataList;
+
+		return dataList;
 
 	}
 
@@ -211,7 +211,8 @@ public class DataController {
 			}
 		} else {
 			for (String str : dataList) {
-				TempDataList.add(equalizationFieldLength(str,randomValueInAlphanumeric(strLength), startPos, strLength));
+				TempDataList
+						.add(equalizationFieldLength(str, randomValueInAlphanumeric(strLength), startPos, strLength));
 			}
 		}
 
@@ -234,8 +235,7 @@ public class DataController {
 			}
 		} else {
 			for (String str : dataList) {
-				TempdataList
-						.add(equalizationFieldLength(str,randomValueInString(strLength), startPos, strLength));
+				TempdataList.add(equalizationFieldLength(str, randomValueInString(strLength), startPos, strLength));
 			}
 		}
 
@@ -263,7 +263,7 @@ public class DataController {
 
 		for (Object Str : splitdata) {
 			for (String ListStr : dataList) {
-				TempdataList.add(equalizationFieldLength(ListStr,Str.toString(), startPos, strLength));
+				TempdataList.add(equalizationFieldLength(ListStr, Str.toString(), startPos, strLength));
 			}
 		}
 
@@ -275,11 +275,11 @@ public class DataController {
 		int strlen = srcStr.length();
 
 		if ((startPos - 1) > strlen) {
-			srcStr=String.format("%-" + (startPos - 1) + "s", srcStr);
+			srcStr = String.format("%-" + (startPos - 1) + "s", srcStr);
 		}
 
 		return srcStr.concat(String.format("%" + Length + "s", str));
-		
+
 	}
 
 	private int randomValueInNumeric(int minVal, int maxVal) {
@@ -390,4 +390,28 @@ public class DataController {
 		return "profileLayoutUpload";
 	}
 
+	@GetMapping("exporttxt")
+
+	public void writeFileContentInResponse(HttpServletResponse response, @RequestParam("id") int profileID)
+			throws IOException {
+		java.util.Date date = new Date();
+		String fileName = profileMasterService.findByProfileID(profileID).getProfileName() + date.getTime();
+		
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".txt");
+
+		try {
+			List<DataMaster> dataObj = dataMasterService.FindbyProfileID(profileID);
+
+			for (DataMaster obj : dataObj) {
+				response.getWriter().println(obj.getData_Details());
+			}
+		} catch (FileNotFoundException e) {
+			// e.printStackTrace();
+
+		} finally {
+			response.getWriter().close();
+			// return "Exported";
+		}
+
+	}
 }
