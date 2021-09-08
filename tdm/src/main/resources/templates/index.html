@@ -71,7 +71,100 @@
 		<div th:insert="menu">  </div>
 		<!-- END: Main Menu-->
 
-			
+			<div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper" style="background: #F2F2F2;min-height:550px;">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- Dashboard Ecommerce Starts -->
+                <section id="dashboard-ecommerce">
+                    <div class="row">
+                        <!-- Greetings Content Starts -->
+                        <div class="col-xl-4 col-md-6 col-12 dashboard-greetings">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="greeting-text">Welcome <span th:text="${dataLoginUserName}"></span>,</h3>
+                                    <p class="mb-0">&nbsp;</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body" >
+                                        <div class="d-flex justify-content-between align-items-end">
+                                            <div class="dashboard-content-left">
+                                                <p class="text-primary font-large"><span id="datetxt"></span></p> 
+                                                <h1 class="text-primary font-large-2 text-bold-500"><div id = "clock" onload="currentTime()"></div></h1>
+                                                <br/><br/>
+                                                
+                                                <a href="list">
+                                                	<button type="button" class="btn btn-primary glow">Profile List</button>
+                                                </a>
+                                            </div>
+                                            <div class="dashboard-content-right">
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Multi Radial Chart Starts -->
+                        <div class="col-xl-4 col-md-6 col-12 dashboard-visit">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">Profile Count</h4>
+                                    <i class="bx bx-dots-vertical-rounded font-medium-3 cursor-pointer"></i>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body" style="position: relative;">
+                                        <div id="multi-radial-chart" style="min-height: 18px;"><div id="apexchartsahmvo4s4" class="apexcharts-canvas apexchartsahmvo4s4 light" style="width: 269px; height: 218px;"><svg id="SvgjsSvg1006" width="269" height="218.00000000000003" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1008" class="apexcharts-inner apexcharts-graphical" transform="translate(44, -10)"><defs id="SvgjsDefs1007"><clipPath id="gridRectMaskahmvo4s4"><rect id="SvgjsRect1009" width="185" height="207" x="-1" y="-1" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath><clipPath id="gridRectMarkerMaskahmvo4s4"><rect id="SvgjsRect1010" width="185" height="207" x="-1" y="-1" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath></defs><g id="SvgjsG1012" class="apexcharts-radialbar"><g id="SvgjsG1013"><g id="SvgjsG1014" class="apexcharts-tracks"><g id="SvgjsG1015" class="apexcharts-radialbar-track apexcharts-track" rel="1"><path id="apexcharts-radialbarTrack-0" d="M 91.5 24.649999999999977 A 77.85000000000002 77.85000000000002 0 1 1 91.4864126118422 24.650001185723283" fill="none" fill-opacity="1" stroke="rgba(255,255,255,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="3.9770000000000016" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 91.5 24.649999999999977 A 77.85000000000002 77.85000000000002 0 1 1 91.4864126118422 24.650001185723283"></path></g><g id="SvgjsG1017" class="apexcharts-radialbar-track apexcharts-track" rel="2"><path id="apexcharts-radialbarTrack-1" d="M 91.5 38.74999999999997 A 63.75000000000003 63.75000000000003 0 1 1 91.48887352607501 38.75000097096799" fill="none" fill-opacity="1" stroke="rgba(255,255,255,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="3.9770000000000016" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 91.5 38.74999999999997 A 63.75000000000003 63.75000000000003 0 1 1 91.48887352607501 38.75000097096799"></path></g><g id="SvgjsG1019" class="apexcharts-radialbar-track apexcharts-track" rel="3"><path id="apexcharts-radialbarTrack-2" d="M 91.5 52.84999999999997 A 49.65000000000003 49.65000000000003 0 1 1 91.49133444030784 52.850000756212715" fill="none" fill-opacity="1" stroke="rgba(255,255,255,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="3.9770000000000016" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 91.5 52.84999999999997 A 49.65000000000003 49.65000000000003 0 1 1 91.49133444030784 52.850000756212715"></path></g></g><g id="SvgjsG1021"><g id="SvgjsG1026" class="apexcharts-series apexcharts-radial-series" seriesName="Target" rel="1" data:realIndex="0"><path id="SvgjsPath1027" d="M 91.5 24.649999999999977 A 77.85000000000002 77.85000000000002 0 1 1 13.649999999999977 102.50000000000001" fill="none" fill-opacity="0.85" stroke="rgba(90,141,238,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="4.100000000000001" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="270" data:value="75" index="0" j="0" data:pathOrig="M 91.5 24.649999999999977 A 77.85000000000002 77.85000000000002 0 1 1 13.649999999999977 102.50000000000001"></path></g><g id="SvgjsG1028" class="apexcharts-series apexcharts-radial-series" seriesName="Mart" rel="2" data:realIndex="1"><path id="SvgjsPath1029" d="M 91.5 38.74999999999997 A 63.75000000000003 63.75000000000003 0 1 1 30.870147086183934 82.80016660859707" fill="none" fill-opacity="0.85" stroke="rgba(255,91,92,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="4.100000000000001" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-1" data:angle="288" data:value="80" index="0" j="1" data:pathOrig="M 91.5 38.74999999999997 A 63.75000000000003 63.75000000000003 0 1 1 30.870147086183934 82.80016660859707"></path></g><g id="SvgjsG1030" class="apexcharts-series apexcharts-radial-series" seriesName="Ebay" rel="3" data:realIndex="2"><path id="SvgjsPath1031" d="M 91.5 52.84999999999997 A 49.65000000000003 49.65000000000003 0 1 1 51.33230622928384 73.3164622236787" fill="none" fill-opacity="0.85" stroke="rgba(253,172,65,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="4.100000000000001" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-2" data:angle="306" data:value="85" index="0" j="2" data:pathOrig="M 91.5 52.84999999999997 A 49.65000000000003 49.65000000000003 0 1 1 51.33230622928384 73.3164622236787"></path></g><circle id="SvgjsCircle1022" r="42.661500000000004" cx="91.5" cy="102.5" class="apexcharts-radialbar-hollow" fill="transparent"></circle><g id="SvgjsG1023" class="apexcharts-datalabels-group" transform="translate(0, 0)" style="opacity: 1;"><text id="SvgjsText1024" font-family="IBM Plex Sans" x="91.5" y="127.5" text-anchor="middle" dominant-baseline="auto" font-size="15px" fill="#828d99" class="apexcharts-datalabel-label" style="font-family: &quot;IBM Plex Sans&quot;;">Profile</text><text id="SvgjsText1025" font-family="Rubik" x="91.5" y="103.5" text-anchor="middle" dominant-baseline="auto" font-size="30px" fill="#373d3f" class="apexcharts-datalabel-value" style="font-family: Rubik;" th:text="${profileCount}"></text></g></g></g></g><line id="SvgjsLine1032" x1="0" y1="0" x2="183" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1033" x1="0" y1="0" x2="183" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line></g></svg><div class="apexcharts-legend"></div></div></div>
+                                        
+                                    <div class="resize-triggers"><div class="expand-trigger"><div style="width: 322px; height: 0px;"></div></div><div class="contract-trigger"></div></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-12 dashboard-users">
+                            <div class="row  ">
+                                <!-- Statistics Cards Starts -->
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-12 dashboard-users-success">
+                                            <div class="card text-center">
+                                                <div class="card-content">
+                                                    <div class="card-body py-1">
+                                                        <div class="badge-circle badge-circle-lg badge-circle-light-success mx-auto mb-50">
+                                                            <i class="bx bx-briefcase-alt font-medium-5"></i>
+                                                        </div>
+                                                        <div class="text-muted line-ellipsis">-</div>
+                                                        <h3 class="mb-0">-</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 dashboard-users-danger">
+                                            <div class="card text-center">
+                                                <div class="card-content">
+                                                    <div class="card-body py-1">
+                                                        <div class="badge-circle badge-circle-lg badge-circle-light-danger mx-auto mb-50">
+                                                            <i class="bx bx-user font-medium-5"></i>
+                                                        </div>
+                                                        <div class="text-muted line-ellipsis">-</div>
+                                                        <h3 class="mb-0">-</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       </div>
+                                </div>
+                                <!-- Revenue Growth Chart Starts -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Dashboard Ecommerce ends -->
+
+            </div>
+        </div>
+    </div>
 
 		
 		<div class="sidenav-overlay"></div>
@@ -81,8 +174,7 @@
 		<footer class="footer footer-static footer-light">
 		<p class="clearfix mb-0">
 			<span class="float-left d-inline-block"></span><span
-				class="float-right d-sm-inline-block d-none">Copy Right @
-				Lions Clubs - District 324 B1 | PRIVACY POLICY</span>
+				class="float-right d-sm-inline-block d-none"></span>
 			<button class="btn btn-primary btn-icon scroll-top" type="button">
 				<i class="bx bx-up-arrow-alt"></i>
 			</button>
@@ -117,6 +209,38 @@
 		<script
 			th:src="@{/app-assets/js/scripts/pages/dashboard-analytics.js}"></script>
 		<!-- END: Page JS-->
+<script>
+function currentTime() {
+	  let date = new Date();
+	  
+	  let hh = date.getHours();
+	  let mm = date.getMinutes();
+	  let ss = date.getSeconds();
+	  let session = "AM";
+
+	  if(hh == 0){
+	      hh = 12;
+	  }
+	  if(hh > 12){
+	      hh = hh - 12;
+	      session = "PM";
+	   }
+
+	   hh = (hh < 10) ? "0" + hh : hh;
+	   mm = (mm < 10) ? "0" + mm : mm;
+	   ss = (ss < 10) ? "0" + ss : ss;
+	    
+	   let time = hh + ":" + mm + ":" + ss + " " + session;
+
+	  document.getElementById("clock").innerText = time; 
+	  let t = setTimeout(function(){ currentTime() }, 1000);
+	}
+	currentTime();
+	var today = new Date();
+
+	var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+	document.getElementById("datetxt").innerText = "Date : " + date;
+</script>
 </body>
 <!-- END: Body-->
 

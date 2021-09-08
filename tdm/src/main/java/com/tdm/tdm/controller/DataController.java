@@ -132,7 +132,12 @@ public class DataController {
 
 				if (GenerateType.contains("Random")) {
 					dataList = generateNumber(dataList, layoutFields);
+				}else if (GenerateType.contains("Increment")) {
+					dataList = generateIncrementNumber(dataList, layoutFields);
+				}else if (GenerateType.contains("Decrement")) {
+					dataList = generateDecrementNumber(dataList, layoutFields);
 				}
+				
 			} else if (fielddataType.equals("AlphaNumeric")) {
 
 				if (GenerateType.contains("Random")) {
@@ -193,6 +198,40 @@ public class DataController {
 					startPos, strLength));
 		}
 
+		return TempdataList;
+	}
+	
+	private List<String> generateIncrementNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
+		List<String> TempdataList = new ArrayList();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
+		int strLength = Integer.parseInt(layoutFields.getEND_POS());
+
+		String MinValue = layoutFields.getF_MIN();
+		int incre_i=0;
+		for (String str : dataList) {
+			TempdataList.add(equalizationFieldLength(str,
+					String.valueOf(Integer.parseInt(MinValue)+incre_i),
+					startPos, strLength));
+			incre_i++;
+		}
+		
+		return TempdataList;
+	}
+	
+	private List<String> generateDecrementNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
+		List<String> TempdataList = new ArrayList();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
+		int strLength = Integer.parseInt(layoutFields.getEND_POS());
+
+		String MinValue = layoutFields.getF_MIN();
+		int incre_i=Integer.parseInt(MinValue);
+		for (String str : dataList) {
+			TempdataList.add(equalizationFieldLength(str,
+					String.valueOf(incre_i),
+					startPos, strLength));
+			incre_i--;
+		}
+		
 		return TempdataList;
 	}
 
@@ -410,7 +449,6 @@ public class DataController {
 
 		} finally {
 			response.getWriter().close();
-			// return "Exported";
 		}
 
 	}

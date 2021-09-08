@@ -130,7 +130,9 @@
                                     <a th:href="'GenerateData?id=' + @{{id} (id=${profileMasterObj.profileid})}"><input type="button" class="btn btn-primary mr-1 mb-1"
 												value="Generate Fresh Data" />
 									</a>
-									
+									<a th:href="'profileLayout?id=' + @{{id} (id=${profileMasterObj.profileid})}">
+											<button type="button" class="btn btn-primary round mr-1 mb-1">Profile Edit</button>
+									</a>
 									<a th:href="'exporttxt?id=' + @{{id} (id=${profileMasterObj.profileid})}" style="float:right;" id="export">
 										<button type="button" class="btn btn-warning mr-1 mb-1"><i class="bx bx-file"></i> Export (.txt)</button>
 										</a>

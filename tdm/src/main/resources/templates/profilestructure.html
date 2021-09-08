@@ -170,13 +170,16 @@ tbody {
 								</table>
 
 							</div>
+							
+							<a th:href="'profileDataView?id=' + @{{id} (id=${profileID})}">
+								<button type="button" class="btn btn-primary round mr-1 mb-1">View the Data</button>
+							</a>
 							<div style="float: right;">
 								<input type="hidden" class="profileID" th:value="${profileID}" />
 								<button type="button" id="btnlayoutRowDelete"
 									style="float: right;" class="btn btn-secondary mr-1 mb-1">DELETE</button>
 								<button type="button" id="btnlayoutRowAdd" style="float: right;"
 									class="btn btn-primary mr-1 mb-1">ADD</button>
-
 							</div>
 						</div>
 						<div class="col-6">
@@ -227,8 +230,11 @@ tbody {
 						</div>
 
 					</div>
+
+					
 					<div class="row">
 						<div class="col-12">
+							<h6>Line Field Structure</h6>
 							<div class="card" style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
 								<table class="table" id="tblLayoutFields">
 									<thead>
@@ -338,7 +344,7 @@ tbody {
 														<table>
 															<tr>
 																<td><label for="basicInput">MIN(Start)
-																		VALUE</label></td>
+																		VALUE(Increment/Decrement)</label></td>
 																<td><label for="basicInput">MAX(End) VALUE</label>
 																</td>
 															<tr>

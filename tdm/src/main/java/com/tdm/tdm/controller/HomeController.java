@@ -93,6 +93,9 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model theModel, HttpSession session, HttpServletRequest request) {
 
+		List<ProfileMaster> list = profileMasterService.findAll();
+		theModel.addAttribute("profileCount", list.size());
+		
 		if (logintype("ROLE_TDMADMIN")) {
 
 			return "index";
@@ -149,7 +152,10 @@ public class HomeController {
 
 	@GetMapping("/index")
 	public String index(Model theModel) {
-
+		
+		List<ProfileMaster> list = profileMasterService.findAll();
+		theModel.addAttribute("profileCount", list.size());
+		
 		if (logintype("ROLE_TDMADMIN")) {
 			return "index";
 		} else {

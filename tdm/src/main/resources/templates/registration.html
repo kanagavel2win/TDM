@@ -137,11 +137,9 @@ width:100%;
 	<!-- BEGIN: Content-->
 	<div class="app-content content"
 		style="background: #004b93; font-family: calibri" align="center">
-		<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="LionsClub"
+		<img th:src="@{/app-assets/images/svg/logo-color.svg}" alt="IBM TDM"
 			height="200" width="200">
-		<!-- <p style="color: #fff; font-size: 30px;">
-			<b>Welcome to your Lions Account</b>
-		</p> -->
+		
 		
 <div th:if="${param.success}">
 					<div class="success1">You've successfully registered<br/>
@@ -178,7 +176,7 @@ width:100%;
 					<div class="form-group"
 						th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
 						 <input
-							id="email" class="txtbox" th:field="*{email}"  placeholder="Email ID : mail@lionmmd.in"   required="required"/>
+							id="email" class="txtbox" th:field="*{email}"  placeholder="Email ID : mail@anthem.com"   required="required"/>
 						<p class="error-message"
 							th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
 							error</p>
