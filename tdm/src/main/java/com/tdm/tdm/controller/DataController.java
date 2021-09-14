@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +57,9 @@ public class DataController {
 	@Autowired
 	private HomeController homeController;
 
+	int orderInc = 1;
+	int detailsectionlineID=0;
+
 	@ModelAttribute
 	public void addAttributes(Model themodel, HttpSession session, HttpServletRequest request) {
 		homeController.GetLoginDetail(themodel, session, request);
@@ -71,7 +75,7 @@ public class DataController {
 		ProfileMaster profileMasterObj = profileMasterService.findByProfileID(id);
 		int ObjProfileID = profileMasterObj.getProfileid();
 		List<ProfileLayout> listObj = profileLayoutService.findByProfileID(ObjProfileID);
-		List<DataMaster> dataObj = dataMasterService.FindbyProfileID(ObjProfileID);
+		List<DataMaster> dataObj = dataMasterService.findByProfileIDOrderbyorderID(ObjProfileID);
 		themodel.addAttribute("profileMasterObj", profileMasterObj);
 		themodel.addAttribute("profileLayoutObj", listObj);
 		themodel.addAttribute("dataMasteObj", dataObj);
@@ -88,10 +92,35 @@ public class DataController {
 		ProfileMaster profileMasterObj = profileMasterService.findByProfileID(id);
 		int ObjProfileID = profileMasterObj.getProfileid();
 		List<ProfileLayout> listObj = profileLayoutService.findByProfileID(ObjProfileID);
+		Collections.sort(listObj);
+
+		List<String> ls_FileHeader = new ArrayList();
+		List<String> ls_PharmacyHeader = new ArrayList();
+		List<String> ls_Detail = new ArrayList();
+		List<String> ls_PharmacyTrailer = new ArrayList();
+		List<String> ls_FileTrailer = new ArrayList();
 
 		for (ProfileLayout profileLayoutObj : listObj) {
-			if (profileLayoutObj.getLineType().equals("Detail")) {
-				GenerateDataDetailSection(profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+			if (profileLayoutObj.getLineType().equals("FileHeader")) {
+				ls_FileHeader = GenerateDataDetailSection(profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+				saveGenerateData(ls_FileHeader, profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+			} else if (profileLayoutObj.getLineType().equals("PharmacyHeader")) {
+				ls_PharmacyHeader = GenerateDataDetailSection(profileLayoutObj.getId(),
+						profileLayoutObj.getProfileID());
+				saveGenerateData(ls_PharmacyHeader, profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+			} else if (profileLayoutObj.getLineType().equals("Detail")) {
+				detailsectionlineID=profileLayoutObj.getId();
+				ls_Detail = GenerateDataDetailSection(profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+				saveGenerateData(ls_Detail, profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+			} else if (profileLayoutObj.getLineType().equals("PharmacyTrailer")) {
+				ls_PharmacyTrailer = GenerateDataDetailSection(profileLayoutObj.getId(),
+						profileLayoutObj.getProfileID());
+				saveTailerGenerateData(ls_Detail, ls_PharmacyTrailer, profileLayoutObj.getId(),
+						profileLayoutObj.getProfileID());
+			} else if (profileLayoutObj.getLineType().equals("FileTrailer")) {
+				ls_FileTrailer = GenerateDataDetailSection(profileLayoutObj.getId(), profileLayoutObj.getProfileID());
+				saveTailerGenerateData(ls_PharmacyTrailer,ls_FileTrailer, profileLayoutObj.getId(),
+						profileLayoutObj.getProfileID());
 			}
 		}
 
@@ -100,12 +129,81 @@ public class DataController {
 		return "profileData";
 	}
 
+	private void saveGenerateData(List<String> dataList, int Lineid, int ProfileID) {
+		dataMasterService.deleteByProfileIDAndLineID(ProfileID, Lineid);
+		for (String str : dataList) {
+			DataMaster dataMasterObj = new DataMaster();
+			dataMasterObj.setLineID(Lineid);
+			dataMasterObj.setProfileID(ProfileID);
+			dataMasterObj.setData_Details(str);
+			dataMasterObj.setOrderID(orderInc);
+			dataMasterService.Save(dataMasterObj);
+			orderInc++;
+		}
+	}
+
+	private void saveTailerGenerateData(List<String> detaildataList, List<String> trailerdataList, int Lineid,
+			int ProfileID) {
+
+		List<ProfileLayoutFields> layoutFieldsList = profileLayoutFieldsService.findByProfileIDAndLineID(ProfileID,
+				Lineid);
+		Collections.sort(layoutFieldsList);
+
+		for (ProfileLayoutFields layoutFields : layoutFieldsList) {
+			String fielddataType = layoutFields.getF_DATATYPE();
+			int startPos = Integer.parseInt(layoutFields.getSTART_POS());
+			int strLength = Integer.parseInt(layoutFields.getEND_POS());
+
+			if (fielddataType.equals("CustomDataType")) {
+
+				String customDataformate = layoutFields.getCUSTOM_DATA_FORMAT();
+
+				if (customDataformate.contains("Count")) {
+					String rcdcount = String.valueOf(detaildataList.size());
+					trailerdataList = equalizationFieldLengthwithReplace(trailerdataList, rcdcount, startPos,
+							strLength);
+				}
+				if (customDataformate.contains("Sum")) {
+					int sumval=0;
+					//Get sum Column details-------------------------
+					customDataformate = customDataformate.substring(customDataformate.indexOf("(") + 1);
+					customDataformate = customDataformate.substring(0, customDataformate.indexOf(")"));
+					final String sumcolFieldsName=customDataformate;
+					List<ProfileLayoutFields> SumlayoutFieldsList = profileLayoutFieldsService.findByProfileIDAndLineID(ProfileID,
+							detailsectionlineID).stream().filter(obj -> obj.getFIELDNAME().equals(sumcolFieldsName)).collect(Collectors.toList());
+					
+					ProfileLayoutFields   SumObj= SumlayoutFieldsList.get(0);
+					int beginIndex=Integer.parseInt(SumObj.getSTART_POS());
+					int endIndex=Integer.parseInt(SumObj.getEND_POS());
+					//---------------------------------------------
+					for(String str:detaildataList)
+					{
+						sumval=sumval+Integer.parseInt(str.substring(beginIndex,beginIndex+endIndex-1));
+					}
+					
+					trailerdataList = equalizationFieldLengthwithReplace(trailerdataList, String.valueOf(sumval), startPos,
+							strLength);
+				}
+			}
+		}
+
+		dataMasterService.deleteByProfileIDAndLineID(ProfileID, Lineid);
+		for (String str : trailerdataList) {
+			DataMaster dataMasterObj = new DataMaster();
+			dataMasterObj.setLineID(Lineid);
+			dataMasterObj.setProfileID(ProfileID);
+			dataMasterObj.setData_Details(str);
+			dataMasterObj.setOrderID(orderInc);
+			dataMasterService.Save(dataMasterObj);
+			orderInc++;
+		}
+	}
+
 	private List<String> GenerateDataDetailSection(int Lineid, int ProfileID) {
 		List<ProfileLayoutFields> layoutFieldsList = profileLayoutFieldsService.findByProfileIDAndLineID(ProfileID,
 				Lineid);
 		Collections.sort(layoutFieldsList);
 		List<String> dataList = new ArrayList();
-		List<DataMaster> dataMasterList = new ArrayList();
 
 		// Handle If data list comes as Empty
 		if (dataList.size() == 0) {
@@ -132,12 +230,12 @@ public class DataController {
 
 				if (GenerateType.contains("Random")) {
 					dataList = generateNumber(dataList, layoutFields);
-				}else if (GenerateType.contains("Increment")) {
+				} else if (GenerateType.contains("Increment")) {
 					dataList = generateIncrementNumber(dataList, layoutFields);
-				}else if (GenerateType.contains("Decrement")) {
+				} else if (GenerateType.contains("Decrement")) {
 					dataList = generateDecrementNumber(dataList, layoutFields);
 				}
-				
+
 			} else if (fielddataType.equals("AlphaNumeric")) {
 
 				if (GenerateType.contains("Random")) {
@@ -146,22 +244,18 @@ public class DataController {
 			} else if (fielddataType.equals("Date")) {
 				dataList = generateDate(dataList, layoutFields);
 
+			}else if (fielddataType.equals("CustomDataType")) {
+
+				if (layoutFields.getCUSTOM_DATA_FORMAT().contains("Count")) {
+					dataList = generateEmpty(dataList, layoutFields);
+				}else if (layoutFields.getCUSTOM_DATA_FORMAT().contains("Sum")) {
+					dataList = generateEmpty(dataList, layoutFields);
+				}
 			}
 
 		}
 		// Print in Console All list
 		// dataList.forEach(System.out::println);
-
-		// Save All Object to DB
-		dataMasterService.DeleteByProfileID(ProfileID);
-		for (String str : dataList) {
-			DataMaster dataMasterObj = new DataMaster();
-			dataMasterObj.setLineID(Lineid);
-			dataMasterObj.setProfileID(ProfileID);
-			dataMasterObj.setData_Details(str);
-			dataMasterService.Save(dataMasterObj);
-
-		}
 
 		return dataList;
 
@@ -200,38 +294,35 @@ public class DataController {
 
 		return TempdataList;
 	}
-	
+
 	private List<String> generateIncrementNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
 		List<String> TempdataList = new ArrayList();
 		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 
 		String MinValue = layoutFields.getF_MIN();
-		int incre_i=0;
+		int incre_i = 0;
 		for (String str : dataList) {
-			TempdataList.add(equalizationFieldLength(str,
-					String.valueOf(Integer.parseInt(MinValue)+incre_i),
+			TempdataList.add(equalizationFieldLength(str, String.valueOf(Integer.parseInt(MinValue) + incre_i),
 					startPos, strLength));
 			incre_i++;
 		}
-		
+
 		return TempdataList;
 	}
-	
+
 	private List<String> generateDecrementNumber(List<String> dataList, ProfileLayoutFields layoutFields) {
 		List<String> TempdataList = new ArrayList();
 		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
 		int strLength = Integer.parseInt(layoutFields.getEND_POS());
 
 		String MinValue = layoutFields.getF_MIN();
-		int incre_i=Integer.parseInt(MinValue);
+		int incre_i = Integer.parseInt(MinValue);
 		for (String str : dataList) {
-			TempdataList.add(equalizationFieldLength(str,
-					String.valueOf(incre_i),
-					startPos, strLength));
+			TempdataList.add(equalizationFieldLength(str, String.valueOf(incre_i), startPos, strLength));
 			incre_i--;
 		}
-		
+
 		return TempdataList;
 	}
 
@@ -255,6 +346,17 @@ public class DataController {
 			}
 		}
 
+		return TempDataList;
+	}
+
+	private List<String> generateEmpty(List<String> dataList, ProfileLayoutFields layoutFields) {
+		List<String> TempDataList = new ArrayList();
+		int startPos = Integer.parseInt(layoutFields.getSTART_POS());
+		int strLength = Integer.parseInt(layoutFields.getEND_POS());
+
+		for (String str : dataList) {
+			TempDataList.add(equalizationFieldLength(str, "", startPos, strLength));
+		}
 		return TempDataList;
 	}
 
@@ -319,6 +421,22 @@ public class DataController {
 
 		return srcStr.concat(String.format("%" + Length + "s", str));
 
+	}
+
+	private List<String> equalizationFieldLengthwithReplace(List<String> srcStrList, String str, int startPos,
+			int Length) {
+
+		List<String> templist = new ArrayList();
+
+		str = String.format("%" + Length + "s", str);
+  		for (String srcStr : srcStrList) {
+  			
+  			 StringBuffer buf = new StringBuffer(srcStr);
+  			buf.replace(startPos-1,  startPos + Length - 2, str);
+			templist.add(buf.toString());
+		}
+
+		return templist;
 	}
 
 	private int randomValueInNumeric(int minVal, int maxVal) {
@@ -435,11 +553,11 @@ public class DataController {
 			throws IOException {
 		java.util.Date date = new Date();
 		String fileName = profileMasterService.findByProfileID(profileID).getProfileName() + date.getTime();
-		
+
 		response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".txt");
 
 		try {
-			List<DataMaster> dataObj = dataMasterService.FindbyProfileID(profileID);
+			List<DataMaster> dataObj = dataMasterService.findByProfileIDOrderbyorderID(profileID);
 
 			for (DataMaster obj : dataObj) {
 				response.getWriter().println(obj.getData_Details());

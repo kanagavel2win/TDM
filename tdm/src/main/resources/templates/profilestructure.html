@@ -197,9 +197,11 @@ tbody {
 												id="orderID" /></td>
 											<td style="width: 50%"><select class="form-control"
 												id="lineType" name="linetype">
-													<option value="Header">Header</option>
+													<option value="FileHeader">FileHeader</option>
+													<option value="PharmacyHeader">Pharmacy Header</option>
 													<option value="Detail">Detail</option>
-													<option value="Trailer">Trailer</option>
+													<option value="PharmacyTrailer">Pharmacy Trailer</option>
+													<option value="FileTrailer">FileTrailer</option>
 													<option value="">--</option>
 											</select></td>
 										<tr>
@@ -370,6 +372,7 @@ tbody {
 														<label for="basicInput">CUSTOM_DATA_FORMAT</label> <input
 															type="text" class="form-control"
 															id="POPUP_CUSTOM_DATA_FORMAT" />
+														Ex:  Count(),Sum(Detail_Column)
 													</fieldset>
 												</div>
 												

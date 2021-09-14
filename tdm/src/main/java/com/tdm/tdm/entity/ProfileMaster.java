@@ -30,7 +30,8 @@ public class ProfileMaster {
 	@NotNull
 	private String profileName;
 	private String description;
-	
+	private String groupbycolumn;
 	
 	
 }
+ 

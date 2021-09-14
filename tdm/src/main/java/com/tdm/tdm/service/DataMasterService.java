@@ -66,4 +66,15 @@ public class DataMasterService implements DataMasterImp {
 		
 	}
 
+	@Override
+	public List<DataMaster> findByProfileIDOrderbyorderID(int profileid) {
+		return dataMasterRepository.findByProfileIDOrderbyorderID(profileid);
+	}
+
+	@Override
+	public void deleteByProfileIDAndLineID(int profileid, int lineid) {
+		
+		dataMasterRepository.deleteByProfileIDAndLineID(profileid, lineid);
+	}
+
 }

@@ -19,4 +19,8 @@ public interface DataMasterImp {
 	List<DataMaster> SaveAll(List dataMasterList);
 
 	void DeleteByProfileID(int id);
+	
+	List<DataMaster> findByProfileIDOrderbyorderID(int profileid);
+	
+	void deleteByProfileIDAndLineID(int profileid,int lineid);
 }
